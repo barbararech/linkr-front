@@ -114,7 +114,7 @@ const Container = styled.div`
   }
 
   .form {
-    padding-top: 30%;
+    padding-top: 300px;
     background-color: #333333;
     width: 40vw;
     display: flex;
@@ -126,7 +126,7 @@ const Container = styled.div`
     background-color: #151515;
     width: 60vw;
     height: 100vh;
-    padding-top: 25%;
+    padding-top: 300px;
 
     h1 {
       padding: 0 0 0 10vw;
@@ -167,7 +167,7 @@ const Container = styled.div`
 
   input,
   select {
-    width: 80%;
+    width: 85%;
     padding: 0.65rem 0.5rem;
     margin-bottom: 13px;
     font-size: 27px;
