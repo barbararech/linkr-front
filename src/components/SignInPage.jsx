@@ -119,8 +119,6 @@ const Container = styled.div`
     width: 40vw;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    //align-items: center;
   }
 
   .logo {
@@ -153,7 +151,6 @@ const Container = styled.div`
   }
 
   form {
-    //max-width: 400px;
     margin: 0 2vw 0 2vw;
     display: flex;
     flex-direction: column;
@@ -164,6 +161,7 @@ const Container = styled.div`
       text-decoration: underline;
       color: #ffffff;
       font-family: "Lato";
+      font-size: 20px;
     }
   }
 
@@ -171,12 +169,12 @@ const Container = styled.div`
   select {
     width: 80%;
     padding: 0.65rem 0.5rem;
-    margin-top: 4px;
-    font-size: 1rem;
+    margin-bottom: 13px;
+    font-size: 27px;
     color: black;
     border: 2px solid #4a5568;
     background-color: #ffffff;
-    border-radius: 8px;
+    border-radius: 6px;
     outline: none;
     font-family: "Oswald";
   }
@@ -193,14 +191,13 @@ const Container = styled.div`
 
   button {
     display: block;
-    margin: 0.5rem 0;
     padding: 0.6rem 0.5rem;
     background-color: #1877f2;
     color: #ffffff;
     border: none;
-    border-radius: 3px;
+    border-radius: 6px;
     width: 85%;
-    font-size: 1rem;
+    font-size: 27px;
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -218,5 +215,61 @@ const Container = styled.div`
 
   button:disabled {
     opacity: 0.35;
+  }
+
+  @media (max-width: 935px) {
+
+    .split {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .form {
+      padding-top: 40px;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .logo {
+      width: 100%;
+      height: 175px;
+      text-align: center;
+      padding-top: 10px;
+
+      h1 {
+        padding: 0 0 0 0vw;
+        font-size: 76px;
+        font-weight: 700;
+        line-height: 83px;
+      }
+
+      h3 {
+        font-size: 23px;
+        line-height: 34px;
+        padding: 0em 0px 0em 0vw;
+      }
+    }
+
+    form {
+      width: 100%;
+
+      h6 {
+        font-size: 17px;
+      }
+    }
+
+    input,
+    select {
+      font-size: 22px;
+    }
+
+    button {
+      font-size: 22px;
+    }
   }
 `;
