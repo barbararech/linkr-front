@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Oswald:wght@700&family=Passion+One:wght@700&display=swap');
+
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   background-color: #151515;
@@ -16,5 +18,4 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
 
