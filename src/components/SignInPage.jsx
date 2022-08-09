@@ -1,27 +1,34 @@
 import { useFormik } from "formik";
 import styled from "styled-components";
-import { basicSchema } from "../schemas";
+import { basicSchema, loginSchema } from "../schemas";
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignInPage() {
+  const [enable, setEnable] = useState(true);
+  const navigate = useNavigate();
+
   const onSubmit = (values, actions) => {
-    const body = {
-      email: values.email,
-      password: values.password,
-    };
+    setEnable(false);
 
     axios({
       method: "POST",
-      url: "http://localhost:4000/signup",
+      url: "http://localhost:5000/signin",
       data: values,
     })
       .then((response) => {
-        alert("Deu certo");
+        // alert("Deu certo");
+        navigate("/timeline");
       })
       .catch((error) => {
-        alert("Não deu certo");
+        if (error.code === "ERR_BAD_REQUEST") {
+          alert("Email ou senha inválidos!");
+        } else {
+          alert(error);
+        }
+
+        setEnable(true);
       });
   };
 
@@ -40,12 +47,12 @@ function SignInPage() {
       email: "",
       password: "",
     },
-    validationSchema: basicSchema,
+    validationSchema: loginSchema,
     onSubmit,
   });
 
   return (
-    <Container>
+    <Container enable={enable}>
       <div className="split">
         <div className="logo">
           <h1>linkr</h1>
@@ -156,7 +163,7 @@ const Container = styled.div`
       margin-top: 22px;
       text-decoration: underline;
       color: #ffffff;
-      font-family:'Lato';
+      font-family: "Lato";
     }
   }
 
@@ -198,6 +205,8 @@ const Container = styled.div`
     cursor: pointer;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     font-family: "Oswald";
+    opacity: ${(props) => (props.enable ? "1" : "0.7")};
+    pointer-events: ${(props) => (props.enable ? "auto" : "none")};
   }
 
   input.input-error,
