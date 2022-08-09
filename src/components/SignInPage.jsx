@@ -1,12 +1,17 @@
 import { useFormik } from "formik";
 import styled from "styled-components";
-import { basicSchema, loginSchema } from "../schemas";
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { loginSchema } from "../schemas";
+import {
+  useUserData,
+  saveUserDataInLocalStorage,
+} from "../contexts/userContext.jsx";
 
 function SignInPage() {
   const [enable, setEnable] = useState(true);
+  const [, setUserData] = useUserData();
   const navigate = useNavigate();
 
   const onSubmit = (values, actions) => {
@@ -18,7 +23,9 @@ function SignInPage() {
       data: values,
     })
       .then((response) => {
-        // alert("Deu certo");
+        console.log(response.data);
+        setUserData(response.data);
+        saveUserDataInLocalStorage(response.data);
         navigate("/timeline");
       })
       .catch((error) => {
@@ -218,7 +225,6 @@ const Container = styled.div`
   }
 
   @media (max-width: 935px) {
-
     .split {
       display: flex;
       flex-direction: column;
