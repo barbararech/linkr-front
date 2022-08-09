@@ -154,7 +154,7 @@ const Container = styled.div`
     font-size: 0.75rem;
     text-align: left;
     margin-top: 0.2rem;
-    margin-bottom: -0.2rem;
+    margin-bottom: 0.6rem;
   }
 
   form {
@@ -201,6 +201,7 @@ const Container = styled.div`
     padding: 0.6rem 0.5rem;
     background-color: #1877f2;
     color: #ffffff;
+    margin-top: 12px;
     border: none;
     border-radius: 6px;
     width: 85%;
@@ -215,7 +216,7 @@ const Container = styled.div`
 
   input.input-error,
   select.input-error {
-    margin: 15px 0 5px 0;
+    margin: 15px 0 15px 0;
     border-color: #fc8181;
     background-color: #49312b;
   }
