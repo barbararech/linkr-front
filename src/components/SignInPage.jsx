@@ -14,7 +14,7 @@ function SignInPage() {
 
     axios({
       method: "POST",
-      url: "http://localhost:5000/signin",
+      url: "https://projeto17-linkr-backend.herokuapp.com/signin",
       data: values,
     })
       .then((response) => {
