@@ -20,15 +20,30 @@ export default function Trending() {
       });
   }, []);
 
+  function RenderTrending() {
+    if (trending.length === 0) {
+      return (
+        <Hashtags>
+          <p> Ainda não há hashtags utilizadas!</p>
+        </Hashtags>
+      );
+    }
+
+    return trending.map((name, index) => {
+      return (
+        <Hashtags>
+          <p>  {name}</p>
+        </Hashtags>
+      );
+    });
+  }
+
   return (
     <TrendingContainer>
       <Title>
         <h1>trending</h1>
       </Title>
-      <Hashtags>
-        <p> Oiii</p>
-        <p> Oiii</p>
-      </Hashtags>
+      {RenderTrending()}
     </TrendingContainer>
   );
 }
