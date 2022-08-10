@@ -1,5 +1,6 @@
 import Header from './Header.jsx';
 import NewPost from './NewPost.jsx';
+import Trending from './Trending.jsx'
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
@@ -12,6 +13,7 @@ export default function TimelinePage() {
       <Header />
       <Container>
         <NewPost />
+        <Trending />
       </Container>
     </>
   );
