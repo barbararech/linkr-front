@@ -1,20 +1,23 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useUserData } from "../contexts/userContext.jsx";
 
 export default function Trending() {
   const [trending, setTrending] = useState([]);
-  const token = localStorage.getItem("token");
+  const [userData, setUserData] = useUserData();
+  const { token } = userData;
 
   useEffect(() => {
-    const response = axios
+    axios
       .get("https://projeto17-linkr-backend.herokuapp.com/trending", {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => {
+      .then((response) => {
+        console.log(response.data);
         setTrending(response.data);
       })
-      .catch((e) => {
+      .catch((error) => {
         const message = error.response.statusText;
         alert(message);
       });
@@ -29,12 +32,9 @@ export default function Trending() {
       );
     }
 
-    return trending.map((name, index) => {
-      return (
-        <Hashtags>
-          <p>  {name}</p>
-        </Hashtags>
-      );
+    return trending.map((hashtags, index) => {
+      const { hashtag } = hashtags;
+      return <p key={index}> # {hashtag}</p>;
     });
   }
 
@@ -43,7 +43,7 @@ export default function Trending() {
       <Title>
         <h1>trending</h1>
       </Title>
-      {RenderTrending()}
+      <Hashtags>{RenderTrending()}</Hashtags>
     </TrendingContainer>
   );
 }
