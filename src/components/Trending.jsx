@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 
@@ -14,7 +15,6 @@ export default function Trending() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        console.log(response.data);
         setTrending(response.data);
       })
       .catch((error) => {
@@ -34,7 +34,12 @@ export default function Trending() {
 
     return trending.map((hashtags, index) => {
       const { hashtag } = hashtags;
-      return <p key={index}> # {hashtag}</p>;
+      console.log(hashtag);
+      return (
+        <Link to={`/hashtag/${hashtag}`}>
+          <i> # {hashtag} </i>
+        </Link>
+      );
     });
   }
 
@@ -85,4 +90,9 @@ const Hashtags = styled.div`
   font-size: 19px;
   line-height: 23px;
   letter-spacing: 0.05em;
+
+  a {
+    text-decoration: none;
+    color: #ffffff;
+  }
 `;
