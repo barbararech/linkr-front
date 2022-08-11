@@ -53,7 +53,7 @@ export default function HashtagPage() {
         setConnectError(err);
         console.error(err);
       });
-  }, [refreshAxios]);
+  }, [hashtag]);
 
   function AllPosts({
     id,
