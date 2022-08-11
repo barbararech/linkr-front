@@ -258,6 +258,7 @@ const Posts = styled.div`
   h2 {
     font-size: 20px;
     font-weight: 400;
+    margin-bottom: 9px;
     color: #ffffff;
     font-family: "Lato", sans-serif;
   }
@@ -265,6 +266,8 @@ const Posts = styled.div`
   h3 {
     font-size: 18px;
     font-weight: 400;
+    margin-bottom: 10px;
+    line-height: 20px;
     font-family: "Lato", sans-serif;
     color: #b7b7b7;
   }
