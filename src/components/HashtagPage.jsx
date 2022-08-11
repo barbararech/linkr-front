@@ -153,7 +153,7 @@ export default function HashtagPage() {
       <Header />
       <Container>
         <ContainerPosts>
-        <Title>{hashtag}</Title>
+        <Title># {hashtag}</Title>
           {loading ? (
             <>
               <h1
