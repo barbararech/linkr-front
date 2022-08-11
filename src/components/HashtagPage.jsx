@@ -1,21 +1,22 @@
 import Header from "./Header.jsx";
-import NewPost from "./NewPost.jsx";
 import Trending from "./Trending.jsx";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 import { Oval } from "react-loader-spinner";
 
-export default function TimelinePage() {
+export default function HashtagPage() {
   const [posts, setPosts] = useState([]);
-  const [refreshAxios, setRefreshAxios] = useState(false);
+  const [refreshAxios,] = useState(false);
   const [userData] = useUserData();
   const [connectError, setConnectError] = useState("");
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { hashtag} = useParams();
+  console.log(hashtag)
+
   let loadingAnimation = (
     <Oval
       height={80}
@@ -39,7 +40,7 @@ export default function TimelinePage() {
 
   useEffect(() => {
     const request = axios.get(
-      "https://projeto17-linkr-backend.herokuapp.com/timeline",
+      `https://projeto17-linkr-backend.herokuapp.com/hashtag/${hashtag}`,
       config
     );
     setLoading(true);
@@ -63,7 +64,6 @@ export default function TimelinePage() {
     urlTitle,
     urlDescription,
     urlImage,
-    userId,
   }) {
     return (
       <Posts>
@@ -106,7 +106,6 @@ export default function TimelinePage() {
         </Helmet>
         <Header />
         <Container>
-          <NewPost />
           <h1
             style={{
               color: "#FFFFFF",
@@ -132,7 +131,6 @@ export default function TimelinePage() {
         </Helmet>
         <Header />
         <Container>
-          <NewPost />
           <h1
             style={{
               color: "#FFFFFF",
@@ -155,8 +153,7 @@ export default function TimelinePage() {
       <Header />
       <Container>
         <ContainerPosts>
-        <Title>timeline</Title>
-          <NewPost />
+        <Title>{hashtag}</Title>
           {loading ? (
             <>
               <h1
@@ -211,21 +208,16 @@ export default function TimelinePage() {
 
 const Container = styled.div`
   margin-top: 53px;
-  /* width: 100%;
-  height: 100vh; */
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
   box-sizing: border-box;
 `;
 
 const ContainerPosts = styled.div`
   margin-right: 25px;
-  /* width: 100%; */
   height: 100vh;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   box-sizing: border-box;
   
 `;
