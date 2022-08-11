@@ -1,25 +1,26 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useUserData } from "../contexts/userContext.jsx";
 
 export default function NewPost() {
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState('');
   const [text, setText] = useState('');
-  const token = localStorage.getItem('token');
+  const [userData] = useUserData();
   const [profilePic, setProfilePic] = useState('');
 
   useEffect(() => {
     axios
       .get('https://projeto17-linkr-backend.herokuapp.com/pictureUrl', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${userData.token}` },
       })
       .then((res) => {
         const { pictureUrl } = res.data;
         setProfilePic(pictureUrl);
       })
       .catch((e) => console.log(e));
-  }, [token]);
+  }, [userData.token]);
 
   function publishPost(e) {
     setLoading(true);
@@ -29,7 +30,7 @@ export default function NewPost() {
         'https://projeto17-linkr-backend.herokuapp.com/post',
         { url, text },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${userData.token}` },
         }
       )
       .then(() => {
