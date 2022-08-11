@@ -1,5 +1,6 @@
 import Header from './Header.jsx';
 import NewPost from './NewPost.jsx';
+import Trending from './Trending.jsx'
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
@@ -111,7 +112,7 @@ if(posts.length===0 && loading === false){
       <Header />
       <Container>
         <NewPost />
-      
+        <Trending />
           {loading ? <><h1 style={{color:"#FFFFFF", fontFamily:"Oswald", marginTop:"100px", marginBottom:"10px;"}}>Loading</h1>{loadingAnimation}</>:
           <>
               {posts.map(({id, username, pictureUrl, link, article, urlTitle, urlDescription, urlImage, userId})=> {return(
