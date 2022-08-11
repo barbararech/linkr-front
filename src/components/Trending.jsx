@@ -62,6 +62,7 @@ const TrendingContainer = styled.div`
   border-radius: 16px;
   position: relative;
   margin-left: 45px;
+  margin-top: 106px;
 `;
 
 const Title = styled.div`

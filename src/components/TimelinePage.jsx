@@ -155,6 +155,7 @@ export default function TimelinePage() {
       <Header />
       <Container>
         <ContainerPosts>
+        <Title>timeline</Title>
           <NewPost />
           {loading ? (
             <>
@@ -209,7 +210,7 @@ export default function TimelinePage() {
 }
 
 const Container = styled.div`
-  margin-top: 185px;
+  margin-top: 53px;
   /* width: 100%;
   height: 100vh; */
   display: flex;
@@ -224,10 +225,20 @@ const ContainerPosts = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   box-sizing: border-box;
   
 `;
+
+const Title = styled.h1`
+  color: #ffffff;
+  font-family: 'Oswald';
+  font-weight: 700;
+  font-size: 43px;
+  line-height: 64px;
+  margin-bottom: 43px;
+`;
+
 
 const Posts = styled.div`
   width: 611px;
