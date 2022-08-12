@@ -3,18 +3,43 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUserData, saveUserDataInLocalStorage} from "../contexts/userContext.jsx";
 import Input from "./Input.jsx";
 import {BsSearch} from 'react-icons/bs';
+import {AiOutlineDown} from 'react-icons/ai'
+import {AiOutlineUp} from 'react-icons/ai'
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 
 
 export default function Header (){
 
     const [, setUserData] = useUserData();
     const navigate = useNavigate();
+
+    const [userData] = useUserData();
+    const [profilePic, setProfilePic] = useState('');
+  
+    useEffect(() => {
+      axios
+        .get('https://projeto17-linkr-backend.herokuapp.com/pictureUrl', {
+          headers: { Authorization: `Bearer ${userData.token}` },
+        })
+        .then((res) => {
+          const { pictureUrl } = res.data;
+          setProfilePic(pictureUrl);
+        })
+        .catch((e) => console.log(e));
+    }, [userData.token]);
     
     function signOut (){
         setUserData("");
         saveUserDataInLocalStorage("");
         navigate("/");
     }
+
+    const [isActive, setActive] = useState(false);
+    const toggleClass = () => {
+      setActive(!isActive);
+    };
 
     return (
         <Container>
@@ -27,7 +52,13 @@ export default function Header (){
                     </div>
                 </span>
 
-                <div className="logout"> <h3 onClick={signOut}>Logout</h3> </div>
+                <div>
+                  <div className="split">  
+                    <div className="arrow" onClick={toggleClass}>  {isActive? <AiOutlineUp/> : <AiOutlineDown/> } </div>
+                    <img className="right" onClick={toggleClass} src={profilePic}/>
+                  </div>
+                  <div className={isActive ? "logout" : "hide"}><h3 onClick={signOut}>Logout</h3></div>
+                </div>
             </div>
 
             <span className="toggle-mobile">
@@ -42,8 +73,6 @@ export default function Header (){
 }
 
 const Container = styled.div`
-
-
   .top{
     color: #FFFFFF;
     background-color: #151515;
@@ -51,11 +80,8 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
   }
-
   .logo{
-
     margin-top: 12px;
-
     h2{
     font-family: 'Passion One';
     font-style: normal;
@@ -64,13 +90,9 @@ const Container = styled.div`
     margin-left: 0.5em;
     }
   }
-
   .input{
-
     position: relative;
     margin-top: 13px;
-
-
     input{
     width: 50vw;
     height: 45px;
@@ -82,20 +104,16 @@ const Container = styled.div`
     color: #515151;
     padding-left: 15px;
     padding-right: 35px;
-
     ::placeholder{
     color: #C6C6C6;
     }
   }
   }
-
   .input-mobile{
-
     position: relative;
     margin-top: 13px;
     margin-left: 2vw;
     margin-right: 2vw;
-
     input{
     width: 96vw;
     height: 45px;
@@ -107,25 +125,49 @@ const Container = styled.div`
     color: #515151;
     padding-left: 15px;
     padding-right: 35px;
-
     ::placeholder{
     color: #C6C6C6;
     }
     }
 }
-
   .icon{
     position: absolute;
     top: 12px;
     right: 12px;
     color: #C6C6C6;
+  }
 
+  .hide{
+    display: none;
+  }
+
+  .right{
+    width: 53px;
+    height: 53px;
+    border-radius: 26.5px;
+    margin: 10px;
+    margin-top: 12px;
+  }
+
+  .arrow{
+    padding-top: 30px;
+  }
+
+  .split{
+    display: flex;
   }
 
   .logout{
-
-    margin-top: 24px;
-    margin-right: 8px;
+    margin-top: -5px;
+    margin-left: -27px;
+    padding-top: 10px;
+    padding-left: 35px;
+    width: 120px;
+    height: 47px;
+    background-color: #171717;
+    border-radius: 0px 0px 0px 20px;
+    position: absolute;
+    z-index: 1;
 
     h3{
     font-family: 'Lato';
@@ -136,20 +178,15 @@ const Container = styled.div`
     letter-spacing: 0.05em;
     }
   }
-
   .toggle-desktop{
-
   }
-
   .toggle-mobile{
     display: none;
   }
-
   @media (max-width: 935px){
     .toggle-desktop {
         display: none;
     }
-
     .toggle-mobile{
         display: block;
     }
