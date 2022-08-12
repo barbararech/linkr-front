@@ -188,22 +188,25 @@ export default function TimelinePage() {
 
 const Container = styled.div`
   margin-top: 53px;
-  /* width: 100%;
-  height: 100vh; */
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
   box-sizing: border-box;
+
+  @media (max-width: 935px) {
+    margin-top: 19px;
+  }
 `;
 
 const ContainerPosts = styled.div`
   margin-right: 25px;
-  /* width: 100%; */
   height: 100vh;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   box-sizing: border-box;
+
+  @media (max-width: 935px) {
+    margin-right: 0px;
+  }
   
 `;
 
@@ -214,4 +217,11 @@ const Title = styled.h1`
   font-size: 43px;
   line-height: 64px;
   margin-bottom: 43px;
+
+  @media (max-width: 935px) {
+    font-size: 33px;
+    line-height: 49px;
+    margin-bottom: 19px;
+    padding-left: 20px;
+  }
 `;

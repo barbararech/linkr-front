@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 
 export default function NewPost() {
   const [loading, setLoading] = useState(false);
-  const [url, setUrl] = useState('');
-  const [text, setText] = useState('');
+  const [url, setUrl] = useState("");
+  const [text, setText] = useState("");
   const [userData] = useUserData();
-  const [profilePic, setProfilePic] = useState('');
+  const [profilePic, setProfilePic] = useState("");
 
   useEffect(() => {
     axios
-      .get('https://projeto17-linkr-backend.herokuapp.com/pictureUrl', {
+      .get("https://projeto17-linkr-backend.herokuapp.com/pictureUrl", {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
       .then((res) => {
@@ -27,21 +27,21 @@ export default function NewPost() {
     e.preventDefault();
     axios
       .post(
-        'https://projeto17-linkr-backend.herokuapp.com/post',
+        "https://projeto17-linkr-backend.herokuapp.com/post",
         { url, text },
         {
           headers: { Authorization: `Bearer ${userData.token}` },
         }
       )
       .then(() => {
-        alert('Post publicado com sucesso');
+        alert("Post publicado com sucesso");
         setLoading(false);
         window.location.reload(false);
       })
       .catch((e) => {
         setLoading(false);
         console.log(e);
-        alert('Houve um erro ao publicar seu link');
+        alert("Houve um erro ao publicar seu link");
       });
   }
 
@@ -53,40 +53,40 @@ export default function NewPost() {
         {loading ? (
           <form onSubmit={publishPost}>
             <input
-              class='disabled'
+              class="disabled"
               disabled
-              type='url'
-              placeholder='http://...'
+              type="url"
+              placeholder="http://..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
             />
             <textarea
-              class='disabled'
+              class="disabled"
               disabled
-              type='text'
-              placeholder='Awesome article about #javascript'
+              type="text"
+              placeholder="Awesome article about #javascript"
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
-            <button class='disabled' disabled>
+            <button class="disabled" disabled>
               Publishing...
             </button>
           </form>
         ) : (
           <form onSubmit={publishPost}>
             <input
-              type='url'
-              placeholder='http://...'
+              type="url"
+              placeholder="http://..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
             />
             <textarea
-              type='text'
-              placeholder='Awesome article about #javascript'
+              type="text"
+              placeholder="Awesome article about #javascript"
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
-            <button type='submit'>Publish</button>
+            <button type="submit">Publish</button>
           </form>
         )}
       </PublicationForm>
@@ -102,19 +102,27 @@ const NewPostContainer = styled.div`
   display: flex;
   position: relative;
   margin-bottom: 21px;
+
   img {
     height: 50px;
     width: 50px;
     border-radius: 25px;
     margin: 18px;
   }
+
+  @media (max-width: 935px) {
+    width: 100vw;
+    height: 375px;
+    border-radius: 0px;
+  }
 `;
 
 const PublicationForm = styled.div`
   margin-top: 21px;
+
   h4 {
     font-size: 20px;
-    font-family: 'Lato', sans-serif;
+    font-family: "Lato", sans-serif;
     font-weight: 300;
     color: #707070;
     margin-bottom: 10px;
@@ -134,7 +142,7 @@ const PublicationForm = styled.div`
       border-radius: 5px;
       border: none;
       padding: 0 13px;
-      font-family: 'Lato', sans-serif;
+      font-family: "Lato", sans-serif;
       font-weight: 300;
       font-size: 15px;
       ::placeholder {
@@ -159,6 +167,13 @@ const PublicationForm = styled.div`
       position: absolute;
       bottom: 16px;
       right: 22px;
+    }
+
+    @media (max-width: 935px) {
+      input,
+      textarea {
+        width: 100vw;
+      }
     }
   }
 `;

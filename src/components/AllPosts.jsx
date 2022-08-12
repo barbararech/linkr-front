@@ -246,6 +246,49 @@ const Posts = styled.div`
     display:flex;
     justify-content: space-between;
   }
+
+  @media (max-width: 935px) {
+    width: 100vw;
+    height: 30%;
+    background-color: #171717;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    border-radius: 0px;
+    padding: 10px 18px 15px 0px;
+
+    img {
+      margin-left: 15px;
+    }
+
+    .postInfo {
+      margin-left: 15px;
+      width: 100%;
+    }
+
+    h2 {
+      font-size: 17px;
+      /* margin-bottom: 0px; */
+    }
+
+    h3 {
+      font-size: 15px;
+      /* margin-bottom: 0px; */
+      line-height: 18px;
+    }
+
+    .urlInfo {
+      width: 100%;
+      height: 70%;
+    }
+
+    .urlInfo > h3 {
+      margin-bottom: 4px;
+    }
+    .urlInfoImg {
+      width: 95px;
+      height: 30%;
+      border-radius: 0px 12px 12px 0px;
+    }
+  }
 `;
 
 const ContainerModal = styled.div `

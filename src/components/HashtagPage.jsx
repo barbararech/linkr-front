@@ -214,8 +214,6 @@ const Container = styled.div`
 
   @media (max-width: 935px) {
     margin-top: 19px;
-    /* width:100%; */
-    /* background-color: blue; */
   }
 `;
 
@@ -228,7 +226,6 @@ const ContainerPosts = styled.div`
 
   @media (max-width: 935px) {
     margin-right: 0px;
-    /* width:100vw; */
   }
 `;
 
