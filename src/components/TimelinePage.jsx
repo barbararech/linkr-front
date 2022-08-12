@@ -372,7 +372,7 @@ const Posts = styled.div`
   .postHeader{
     display:flex;
     align-items: center;
-    ustify-content: space-between;
+    justify-content: space-between;
    }
 
 `;
