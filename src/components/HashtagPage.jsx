@@ -1,28 +1,22 @@
 import Header from "./Header.jsx";
-import NewPost from "./NewPost.jsx";
 import Trending from "./Trending.jsx";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 import { Oval } from "react-loader-spinner";
-import { TiPencil } from "react-icons/ti";
-import { IconContext } from "react-icons";
-import { useFormik } from "formik";
-import { RiDeleteBin7Fill } from "react-icons/ri";
 
-
-export default function TimelinePage() {
+export default function HashtagPage() {
   const [posts, setPosts] = useState([]);
-  const [refreshAxios, setRefreshAxios] = useState(false);
+  const [refreshAxios] = useState(false);
   const [userData] = useUserData();
-  const [connectError, setConnectError] = useState("")
-  const [sessionUserId, setSessionUserId] = useState("")
-
-  const navigate = useNavigate();
+  const [connectError, setConnectError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { hashtag } = useParams();
+  console.log(hashtag);
+
   let loadingAnimation = (
     <Oval
       height={80}
@@ -38,7 +32,6 @@ export default function TimelinePage() {
     />
   );
 
-  const elem = useRef("");
   const config = {
     headers: {
       Authorization: `Bearer ${userData.token}`, //Padrão da API (Bearer Authentication)
@@ -47,7 +40,7 @@ export default function TimelinePage() {
 
   useEffect(() => {
     const request = axios.get(
-      "https://projeto17-linkr-backend.herokuapp.com/timeline",
+      `https://projeto17-linkr-backend.herokuapp.com/hashtag/${hashtag}`,
       config
     );
     setLoading(true);
@@ -60,105 +53,50 @@ export default function TimelinePage() {
         setConnectError(err);
         console.error(err);
       });
-  }, [refreshAxios]);
+  }, [hashtag]);
 
-
-  
- useEffect(() => {
-  const requestId = axios.get("https://projeto17-linkr-backend.herokuapp.com/userId", config);
-  requestId.then((response)=>{
-    setSessionUserId(response.data.id)
-  }).catch((err)=>{
-    setConnectError(err)
-    console.error(err)
-  })
- }, [])
-
-
-
-  function AllPosts({id, username, pictureUrl, link, article, urlTitle, urlDescription, urlImage, userId}){
-    const [edit, setEdit] = useState(false)
-    const [loadingEdit, setLoadingEdit] = useState(false)
-
-    function showEdit(id){
-      console.log(id)
-      setEdit(!edit)
-    }
-
-function sendText(event){
-  event.preventDefault()
-
-  const dados = {text: elem.current.value}
-  setLoadingEdit(true)
-  const request = axios.put(`https://projeto17-linkr-backend.herokuapp.com/post/${id}`,dados, config);
-  request.then((response) => {
-    console.log(response)
-    setLoadingEdit(false)
-    setEdit(false)
-    setRefreshAxios(!refreshAxios)
-  }).catch((err) =>{
-    setConnectError(err)
-    console.error(err)
-  });
-}
- function EditIcons(){
-  if(sessionUserId !== userId){
-    return(
-      <></>
-    )
-  }
-  if(sessionUserId === userId){
-    return(
-      <>
-        <TiPencil onClick={() => showEdit(id)}></TiPencil>
-        <RiDeleteBin7Fill onClick={()=> alert(`deletar post id` + id)}></RiDeleteBin7Fill>
-      </>
-    )
-  }
-}
-    return(
-      <IconContext.Provider value={{ color: "#FFFFFF", fontSize:"16px"}}>
-        <Posts>
-          <div>
-            <img src={pictureUrl}/>
-          </div>
-          <div className="postInfo" id={id}>
-            <div className='postHeader'>
-              <span>
-                <h2>{username}</h2>
-                {edit ? <form onSubmit={sendText}>
-                          <input 
-                            ref={elem}
-                            type ="text" 
-                            placeholder={article} 
-                            //value={newText} 
-                            autoFocus 
-                           /*  onKeyPress={(e) => sendText(e)}  */
-                           // onChange={(e)=> setNewText(e.target.value)} 
-                            disabled={loadingEdit}/>
-                            <button type="submit"></button>
-                        </form>
-                        
-                      :<h3>{article}</h3>}
-              </span>
-              <EditIcons/>
+  function AllPosts({
+    id,
+    username,
+    pictureUrl,
+    link,
+    article,
+    urlTitle,
+    urlDescription,
+    urlImage,
+  }) {
+    return (
+      <Posts>
+        <div>
+          <img src={pictureUrl} />
+        </div>
+        <div className="postInfo" id={id}>
+          <h2>{username}</h2>
+          <h3>{article}</h3>
+          <div
+            className="urlInfo"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              window.open(link, "_blank");
+            }}
+          >
+            <div>
+              <h3 style={{ fontSize: "16px", marginBottom: "5px" }}>
+                {urlTitle}
+              </h3>
+              <h3 style={{ fontSize: "11px", marginBottom: "14px" }}>
+                {urlDescription}
+              </h3>
+              {/* <h3 style={{ fontSize: "11px" }}>{link}</h3> */}
             </div>
-            <div className="urlInfo" style={{cursor:"pointer"}}onClick={()=> {(window.open(link, "_blank")) }}>
-                <div>
-                  <h3 style={{fontSize: "16px", marginBottom: "5px"}}>{urlTitle}</h3>
-                  <h3 style={{fontSize: "11px", marginBottom: "14px"}}>{urlDescription}</h3>
-                  <h3 style={{fontSize: "11px"}}>{link}</h3>
-                </div>
-                <div>
-                  <img src={urlImage} className= "urlInfoImg"alt="" />
-                </div>
+            <div>
+              <img src={urlImage} className="urlInfoImg" alt="" />
             </div>
           </div>
-        </Posts>
-      </IconContext.Provider>
-    )
-
-}
+        </div>
+      </Posts>
+    );
+  }
 
   if (connectError !== "") {
     return (
@@ -168,7 +106,6 @@ function sendText(event){
         </Helmet>
         <Header />
         <Container>
-          <NewPost />
           <h1
             style={{
               color: "#FFFFFF",
@@ -194,7 +131,6 @@ function sendText(event){
         </Helmet>
         <Header />
         <Container>
-          <NewPost />
           <h1
             style={{
               color: "#FFFFFF",
@@ -217,8 +153,7 @@ function sendText(event){
       <Header />
       <Container>
         <ContainerPosts>
-        <Title>timeline</Title>
-          <NewPost />
+          <Title># {hashtag}</Title>
           {loading ? (
             <>
               <h1
@@ -273,35 +208,45 @@ function sendText(event){
 
 const Container = styled.div`
   margin-top: 53px;
-  /* width: 100%;
-  height: 100vh; */
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
   box-sizing: border-box;
+
+  @media (max-width: 935px) {
+    margin-top: 19px;
+    /* width:100%; */
+    /* background-color: blue; */
+  }
 `;
 
 const ContainerPosts = styled.div`
   margin-right: 25px;
-  /* width: 100%; */
   height: 100vh;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   box-sizing: border-box;
-  
-`;
 
+  @media (max-width: 935px) {
+    margin-right: 0px;
+    /* width:100vw; */
+  }
+`;
 
 const Title = styled.h1`
   color: #ffffff;
-  font-family: 'Oswald';
+  font-family: "Oswald";
   font-weight: 700;
   font-size: 43px;
   line-height: 64px;
   margin-bottom: 43px;
-`;
 
+  @media (max-width: 935px) {
+    font-size: 33px;
+    line-height: 49px;
+    margin-bottom: 19px;
+    padding-left:20px;
+  }
+`;
 
 const Posts = styled.div`
   width: 611px;
@@ -368,11 +313,53 @@ const Posts = styled.div`
     box-sizing: border-box;
     display: flex;
   }
-  
-  .postHeader{
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
-   }
 
+  @media (max-width: 935px) {
+    width: 100vw;
+    height: 30%;
+    background-color: #171717;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    border-radius: 0px;
+    padding:10px 18px 15px 0px;
+
+    img {
+      margin-left: 15px;
+    }
+
+    .postInfo {
+      margin-left: 15px;
+      /* background-color:red; */
+      width: 100%;
+    }
+
+    h2 {
+      font-size: 17px;
+      margin-bottom: 0px;
+      /* width:20%;
+      word-wrap:wrap; */
+    }
+
+    h3 {
+      font-size: 15px;
+      margin-bottom: 0px;
+      line-height: 18px;
+      /* width:20%;
+      word-wrap:wrap; */
+    }
+
+    .urlInfo {
+      width: 100%;
+      height: 70%;
+      /* background-color:yellow; */
+    }
+
+    .urlInfo > h3 {
+      margin-bottom: 4px;
+    }
+    .urlInfoImg {
+      width: 95px;
+      height: 115px;
+      border-radius: 0px 12px 12px 0px;
+    }
+  }
 `;

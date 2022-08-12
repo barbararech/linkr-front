@@ -63,6 +63,10 @@ const TrendingContainer = styled.div`
   position: relative;
   margin-left: 45px;
   margin-top: 106px;
+
+  @media (max-width: 935px) {
+    display:none;
+  }
 `;
 
 const Title = styled.div`
