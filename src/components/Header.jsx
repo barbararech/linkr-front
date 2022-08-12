@@ -210,5 +210,19 @@ const Container = styled.div`
       display: block;
       /* width:100vw; */
     }
+
+    .right {
+      width: 41px;
+      height: 41px;
+      border-radius: 26.5px;
+      margin: 15px;
+    }
+
+    .logo {
+      margin-top: 15px;
+      h2 {
+        font-size: 45px;
+      }
+    }
   }
 `;
