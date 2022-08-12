@@ -51,7 +51,7 @@ export default function AllPosts({id, username, pictureUrl, link, article, urlTi
         event.preventDefault()
         const dados = {text: elem.current.value}
         setLoadingEdit(true)
-        const request = axios.put(`https://projeto17-linkr-backend.herokuapp.com/post/${id}`,dados, config);
+        const request = axios.put(`https://projeto17-linkr-backend.herokuapp.com/post/${id.id}`,dados, config);
         request.then((response) => {
             console.log(response)
             setLoadingEdit(false)
@@ -68,7 +68,7 @@ export default function AllPosts({id, username, pictureUrl, link, article, urlTi
         function deletePost(event){
         event.preventDefault()
         setLoadingDelete(true)
-        const request = axios.delete(`https://projeto17-linkr-backend.herokuapp.com/post/${id}`, config);
+        const request = axios.delete(`https://projeto17-linkr-backend.herokuapp.com/post/${id.id}`, config);
         request.then((response) => {
             console.log(response)
             setLoadingDelete(false)
