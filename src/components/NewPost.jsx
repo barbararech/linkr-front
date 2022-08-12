@@ -102,6 +102,7 @@ const NewPostContainer = styled.div`
   display: flex;
   position: relative;
   margin-bottom: 21px;
+  padding-bottom: 52px;
 
   img {
     height: 50px;
@@ -111,14 +112,23 @@ const NewPostContainer = styled.div`
   }
 
   @media (max-width: 935px) {
+    justify-content: center;
     width: 100vw;
     height: 375px;
     border-radius: 0px;
+    padding: 0px 15px 40px 15px;
+
+    img {
+      display: none;
+    }
   }
 `;
 
 const PublicationForm = styled.div`
   margin-top: 21px;
+  display:flex;
+  flex-direction: column;
+  width: 100%;
 
   h4 {
     font-size: 20px;
@@ -157,6 +167,7 @@ const PublicationForm = styled.div`
       height: 58px;
       padding: 5px 13px;
     }
+
     button {
       background: #1877f2;
       border-radius: 5px;
@@ -170,9 +181,18 @@ const PublicationForm = styled.div`
     }
 
     @media (max-width: 935px) {
+      display: flex;
+      /* justify-content: center; */
+
       input,
       textarea {
         width: 100%;
+      }
+
+      button {
+        height: 25px;
+        bottom: 9px;
+        right: 15px;
       }
     }
   }
