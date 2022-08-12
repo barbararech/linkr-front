@@ -172,7 +172,7 @@ const PublicationForm = styled.div`
     @media (max-width: 935px) {
       input,
       textarea {
-        width: 100vw;
+        width: 100%;
       }
     }
   }

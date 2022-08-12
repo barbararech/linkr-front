@@ -204,6 +204,9 @@ const Posts = styled.div`
     line-height: 20px;
     font-family: "Lato", sans-serif;
     color: #b7b7b7;
+    overflow: hidden;
+    line-break: anywhere;
+    text-overflow: ellipsis;
   }
 
   .urlInfo {
