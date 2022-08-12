@@ -265,6 +265,7 @@ const Posts = styled.div`
     width: 53px;
     height: 53px;
     border-radius: 26.5px;
+    
   }
 
   .postInfo {
@@ -291,6 +292,7 @@ const Posts = styled.div`
     color: #b7b7b7;
     overflow: hidden;
     line-break: anywhere;
+    text-overflow: ellipsis;
   }
 
   .urlInfo {
@@ -360,7 +362,7 @@ const Posts = styled.div`
     }
     .urlInfoImg {
       width: 95px;
-      height: 115px;
+      height: 30%;
       border-radius: 0px 12px 12px 0px;
     }
   }
