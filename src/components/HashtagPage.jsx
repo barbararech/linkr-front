@@ -3,19 +3,19 @@ import Trending from "./Trending.jsx";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 import { Oval } from "react-loader-spinner";
 
 export default function HashtagPage() {
   const [posts, setPosts] = useState([]);
-  const [refreshAxios,] = useState(false);
+  const [refreshAxios] = useState(false);
   const [userData] = useUserData();
   const [connectError, setConnectError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { hashtag} = useParams();
-  console.log(hashtag)
+  const { hashtag } = useParams();
+  console.log(hashtag);
 
   let loadingAnimation = (
     <Oval
@@ -87,7 +87,7 @@ export default function HashtagPage() {
               <h3 style={{ fontSize: "11px", marginBottom: "14px" }}>
                 {urlDescription}
               </h3>
-              <h3 style={{ fontSize: "11px" }}>{link}</h3>
+              {/* <h3 style={{ fontSize: "11px" }}>{link}</h3> */}
             </div>
             <div>
               <img src={urlImage} className="urlInfoImg" alt="" />
@@ -153,7 +153,7 @@ export default function HashtagPage() {
       <Header />
       <Container>
         <ContainerPosts>
-        <Title># {hashtag}</Title>
+          <Title># {hashtag}</Title>
           {loading ? (
             <>
               <h1
@@ -211,6 +211,12 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   box-sizing: border-box;
+
+  @media (max-width: 935px) {
+    margin-top: 19px;
+    /* width:100%; */
+    /* background-color: blue; */
+  }
 `;
 
 const ContainerPosts = styled.div`
@@ -219,18 +225,28 @@ const ContainerPosts = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  
+
+  @media (max-width: 935px) {
+    margin-right: 0px;
+    /* width:100vw; */
+  }
 `;
 
 const Title = styled.h1`
   color: #ffffff;
-  font-family: 'Oswald';
+  font-family: "Oswald";
   font-weight: 700;
   font-size: 43px;
   line-height: 64px;
   margin-bottom: 43px;
-`;
 
+  @media (max-width: 935px) {
+    font-size: 33px;
+    line-height: 49px;
+    margin-bottom: 19px;
+    padding-left:20px;
+  }
+`;
 
 const Posts = styled.div`
   width: 611px;
@@ -296,5 +312,54 @@ const Posts = styled.div`
     border-radius: 0px 12px 8px 0px;
     box-sizing: border-box;
     display: flex;
+  }
+
+  @media (max-width: 935px) {
+    width: 100vw;
+    height: 30%;
+    background-color: #171717;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    border-radius: 0px;
+    padding:10px 18px 15px 0px;
+
+    img {
+      margin-left: 15px;
+    }
+
+    .postInfo {
+      margin-left: 15px;
+      /* background-color:red; */
+      width: 100%;
+    }
+
+    h2 {
+      font-size: 17px;
+      margin-bottom: 0px;
+      /* width:20%;
+      word-wrap:wrap; */
+    }
+
+    h3 {
+      font-size: 15px;
+      margin-bottom: 0px;
+      line-height: 18px;
+      /* width:20%;
+      word-wrap:wrap; */
+    }
+
+    .urlInfo {
+      width: 100%;
+      height: 70%;
+      /* background-color:yellow; */
+    }
+
+    .urlInfo > h3 {
+      margin-bottom: 4px;
+    }
+    .urlInfoImg {
+      width: 95px;
+      height: 115px;
+      border-radius: 0px 12px 12px 0px;
+    }
   }
 `;
