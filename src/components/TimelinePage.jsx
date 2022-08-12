@@ -3,17 +3,24 @@ import NewPost from "./NewPost.jsx";
 import Trending from "./Trending.jsx";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 import { Oval } from "react-loader-spinner";
+import { TiPencil } from "react-icons/ti";
+import { IconContext } from "react-icons";
+import { useFormik } from "formik";
+import { RiDeleteBin7Fill } from "react-icons/ri";
+
 
 export default function TimelinePage() {
   const [posts, setPosts] = useState([]);
   const [refreshAxios, setRefreshAxios] = useState(false);
   const [userData] = useUserData();
-  const [connectError, setConnectError] = useState("");
+  const [connectError, setConnectError] = useState("")
+  const [sessionUserId, setSessionUserId] = useState("")
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   let loadingAnimation = (
@@ -31,6 +38,7 @@ export default function TimelinePage() {
     />
   );
 
+  const elem = useRef("");
   const config = {
     headers: {
       Authorization: `Bearer ${userData.token}`, //Padrão da API (Bearer Authentication)
@@ -54,49 +62,103 @@ export default function TimelinePage() {
       });
   }, [refreshAxios]);
 
-  function AllPosts({
-    id,
-    username,
-    pictureUrl,
-    link,
-    article,
-    urlTitle,
-    urlDescription,
-    urlImage,
-    userId,
-  }) {
-    return (
-      <Posts>
-        <div>
-          <img src={pictureUrl} />
-        </div>
-        <div className="postInfo" id={id}>
-          <h2>{username}</h2>
-          <h3>{article}</h3>
-          <div
-            className="urlInfo"
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              window.open(link, "_blank");
-            }}
-          >
-            <div>
-              <h3 style={{ fontSize: "16px", marginBottom: "5px" }}>
-                {urlTitle}
-              </h3>
-              <h3 style={{ fontSize: "11px", marginBottom: "14px" }}>
-                {urlDescription}
-              </h3>
-              <h3 style={{ fontSize: "11px" }}>{link}</h3>
+
+  
+ useEffect(() => {
+  const requestId = axios.get("https://projeto17-linkr-backend.herokuapp.com/userId", config);
+  requestId.then((response)=>{
+    setSessionUserId(response.data.id)
+  }).catch((err)=>{
+    setConnectError(err)
+    console.error(err)
+  })
+ }, [])
+
+
+
+  function AllPosts({id, username, pictureUrl, link, article, urlTitle, urlDescription, urlImage, userId}){
+    const [edit, setEdit] = useState(false)
+    const [loadingEdit, setLoadingEdit] = useState(false)
+
+    function showEdit(id){
+      console.log(id)
+      setEdit(!edit)
+    }
+
+function sendText(event){
+  event.preventDefault()
+
+  const dados = {text: elem.current.value}
+  setLoadingEdit(true)
+  const request = axios.put(`https://projeto17-linkr-backend.herokuapp.com/post/${id}`,dados, config);
+  request.then((response) => {
+    console.log(response)
+    setLoadingEdit(false)
+    setEdit(false)
+    setRefreshAxios(!refreshAxios)
+  }).catch((err) =>{
+    setConnectError(err)
+    console.error(err)
+  });
+}
+ function EditIcons(){
+  if(sessionUserId !== userId){
+    return(
+      <></>
+    )
+  }
+  if(sessionUserId === userId){
+    return(
+      <>
+        <TiPencil onClick={() => showEdit(id)}></TiPencil>
+        <RiDeleteBin7Fill onClick={()=> alert(`deletar post id` + id)}></RiDeleteBin7Fill>
+      </>
+    )
+  }
+}
+    return(
+      <IconContext.Provider value={{ color: "#FFFFFF", fontSize:"16px"}}>
+        <Posts>
+          <div>
+            <img src={pictureUrl}/>
+          </div>
+          <div className="postInfo" id={id}>
+            <div className='postHeader'>
+              <span>
+                <h2>{username}</h2>
+                {edit ? <form onSubmit={sendText}>
+                          <input 
+                            ref={elem}
+                            type ="text" 
+                            placeholder={article} 
+                            //value={newText} 
+                            autoFocus 
+                           /*  onKeyPress={(e) => sendText(e)}  */
+                           // onChange={(e)=> setNewText(e.target.value)} 
+                            disabled={loadingEdit}/>
+                            <button type="submit"></button>
+                        </form>
+                        
+                      :<h3>{article}</h3>}
+              </span>
+              <EditIcons/>
             </div>
-            <div>
-              <img src={urlImage} className="urlInfoImg" alt="" />
+            <div className="urlInfo" style={{cursor:"pointer"}}onClick={()=> {(window.open(link, "_blank")) }}>
+                <div>
+                  <h3 style={{fontSize: "16px", marginBottom: "5px"}}>{urlTitle}</h3>
+                  <h3 style={{fontSize: "11px", marginBottom: "14px"}}>{urlDescription}</h3>
+                  <h3 style={{fontSize: "11px"}}>{link}</h3>
+                </div>
+                <div>
+                  <img src={urlImage} className= "urlInfoImg"alt="" />
+                </div>
             </div>
           </div>
-        </div>
-      </Posts>
-    );
-  }
+        </Posts>
+      </IconContext.Provider>
+    )
+
+}
 
   if (connectError !== "") {
     return (
@@ -230,6 +292,7 @@ const ContainerPosts = styled.div`
   
 `;
 
+
 const Title = styled.h1`
   color: #ffffff;
   font-family: 'Oswald';
@@ -305,4 +368,11 @@ const Posts = styled.div`
     box-sizing: border-box;
     display: flex;
   }
+  
+  .postHeader{
+    display:flex;
+    align-items: center;
+    ustify-content: space-between;
+   }
+
 `;
