@@ -87,7 +87,7 @@ export default function HashtagPage() {
               <h3 style={{ fontSize: "11px", marginBottom: "14px" }}>
                 {urlDescription}
               </h3>
-              {/* <h3 style={{ fontSize: "11px" }}>{link}</h3> */}
+              <h3 style={{ fontSize: "11px" }}>{link}</h3>
             </div>
             <div>
               <img src={urlImage} className="urlInfoImg" alt="" />
@@ -244,7 +244,7 @@ const Title = styled.h1`
     font-size: 33px;
     line-height: 49px;
     margin-bottom: 19px;
-    padding-left:20px;
+    padding-left: 20px;
   }
 `;
 
@@ -289,6 +289,8 @@ const Posts = styled.div`
     line-height: 20px;
     font-family: "Lato", sans-serif;
     color: #b7b7b7;
+    overflow: hidden;
+    line-break: anywhere;
   }
 
   .urlInfo {
@@ -320,7 +322,7 @@ const Posts = styled.div`
     background-color: #171717;
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
     border-radius: 0px;
-    padding:10px 18px 15px 0px;
+    padding: 10px 18px 15px 0px;
 
     img {
       margin-left: 15px;
