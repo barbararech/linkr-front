@@ -42,7 +42,7 @@ export default function TimelinePage() {
 
   useEffect(() => {
     const request = axios.get(
-      /* "https://projeto17-linkr-backend.herokuapp.com/timeline" */"http://localhost:5000/timeline",
+      "https://projeto17-linkr-backend.herokuapp.com/timeline",
       config
     );
     setLoading(true);
@@ -60,7 +60,7 @@ export default function TimelinePage() {
 
   
   useEffect(() => {
-    const requestId = axios.get(/* "https://projeto17-linkr-backend.herokuapp.com/userId" */'http://localhost:5000/userId', config);
+    const requestId = axios.get("https://projeto17-linkr-backend.herokuapp.com/userId", config);
     requestId.then((response)=>{
       setSessionUserId(response.data.id)
     }).catch((err)=>{

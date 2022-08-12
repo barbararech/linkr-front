@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import { useState, useEffect } from 'react';
+import { useUserData } from "../contexts/userContext.jsx";
 import axios from 'axios';
 
 export default function Like({ infos }) {
-  const URL = 'https://projeto17-linkr-backend.herokuapp.com/';
+  const URL = 'https://projeto17-linkr-backend.herokuapp.com';
   const { id } = infos;
   let postId = id || 1;
-  const token = localStorage.getItem('token');
+  const [userData] = useUserData();
   const [infoText, setInfoText] = useState('ninguém curtiu este post');
   const [likesInfo, setLikesInfo] = useState({
     likesUsers: [{ username: 'Você' }, { username: 'Fulano' }],
@@ -24,7 +25,7 @@ export default function Like({ infos }) {
     }
     setLikesInfo({ ...likesInfo, liked: !likesInfo.liked });
     axios
-      .post(newURL, {}, { headers: { Authorization: `Bearer ${token}` } })
+      .post(newURL, {}, { headers: { Authorization: `Bearer ${userData.token}` } })
       .then((response) => {
         console.log(response);
       })
@@ -35,7 +36,7 @@ export default function Like({ infos }) {
     axios
       .get(`${URL}/likes/${postId}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userData.token}`,
         },
       })
       .then((res) => {
