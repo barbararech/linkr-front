@@ -7,15 +7,16 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 import { Oval } from "react-loader-spinner";
+import AllPosts from "./AllPosts.jsx";
 
 export default function HashtagPage() {
   const [posts, setPosts] = useState([]);
-  const [refreshAxios] = useState(false);
+  const [refreshAxios, setRefreshAxios] = useState(false);
   const [userData] = useUserData();
   const [connectError, setConnectError] = useState("");
   const [loading, setLoading] = useState(false);
   const { hashtag } = useParams();
-  console.log(hashtag);
+  const [sessionUserId, setSessionUserId] = useState("")
 
   let loadingAnimation = (
     <Oval
@@ -55,48 +56,15 @@ export default function HashtagPage() {
       });
   }, [hashtag]);
 
-  function AllPosts({
-    id,
-    username,
-    pictureUrl,
-    link,
-    article,
-    urlTitle,
-    urlDescription,
-    urlImage,
-  }) {
-    return (
-      <Posts>
-        <div>
-          <img src={pictureUrl} />
-        </div>
-        <div className="postInfo" id={id}>
-          <h2>{username}</h2>
-          <h3>{article}</h3>
-          <div
-            className="urlInfo"
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              window.open(link, "_blank");
-            }}
-          >
-            <div>
-              <h3 style={{ fontSize: "16px", marginBottom: "5px" }}>
-                {urlTitle}
-              </h3>
-              <h3 style={{ fontSize: "11px", marginBottom: "14px" }}>
-                {urlDescription}
-              </h3>
-              <h3 style={{ fontSize: "11px" }}>{link}</h3>
-            </div>
-            <div>
-              <img src={urlImage} className="urlInfoImg" alt="" />
-            </div>
-          </div>
-        </div>
-      </Posts>
-    );
-  }
+  useEffect(() => {
+    const requestId = axios.get("https://projeto17-linkr-backend.herokuapp.com/userId", config);
+    requestId.then((response)=>{
+      setSessionUserId(response.data.id)
+    }).catch((err)=>{
+      setConnectError(err)
+      console.error(err)
+    })
+  }, [])
 
   if (connectError !== "") {
     return (
@@ -170,7 +138,7 @@ export default function HashtagPage() {
             </>
           ) : (
             <>
-              {posts.map(
+               {posts.map(
                 ({
                   id,
                   username,
@@ -193,6 +161,9 @@ export default function HashtagPage() {
                       urlDescription={urlDescription}
                       urlImage={urlImage}
                       userId={userId}
+                      sessionUserId={sessionUserId}
+                      refreshAxios={refreshAxios}
+                      setRefreshAxios={setRefreshAxios}
                     />
                   );
                 }
