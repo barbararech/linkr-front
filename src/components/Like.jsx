@@ -1,36 +1,34 @@
-import styled from 'styled-components';
-import ReactTooltip from 'react-tooltip';
-import { useState, useEffect } from 'react';
+import styled from "styled-components";
+import ReactTooltip from "react-tooltip";
+import { useState, useEffect } from "react";
 import { useUserData } from "../contexts/userContext.jsx";
-import axios from 'axios';
+import axios from "axios";
 import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
 
 export default function Like({ infos }) {
-  const URL = 'https://projeto17-linkr-backend.herokuapp.com';
+  const URL = "https://projeto17-linkr-backend.herokuapp.com";
   const { id } = infos;
   let postId = id || 1;
   const [userData] = useUserData();
-  const [infoText, setInfoText] = useState('ninguém curtiu este post');
+  const [infoText, setInfoText] = useState("ninguém curtiu este post");
   const [likesInfo, setLikesInfo] = useState({
-    likesUsers: [{ username: 'Você' }, { username: 'Fulano' }],
+    likesUsers: [{ username: "Você" }, { username: "Fulano" }],
     liked: false,
     likes: 0,
   });
-
-  console.log(userData.token)
 
   const config = {
     headers: {
       Authorization: `Bearer ${userData.token}`, //Padrão da API (Bearer Authentication)
     },
-  }
+  };
 
   function likePost() {
     let newURL = URL;
     if (!likesInfo.liked) {
-      newURL = URL + '/like/' + postId;
+      newURL = URL + "/like/" + postId;
     } else {
-      newURL = URL + '/dislike/' + postId;
+      newURL = URL + "/dislike/" + postId;
     }
     setLikesInfo({ ...likesInfo, liked: !likesInfo.liked });
     axios
@@ -56,13 +54,11 @@ export default function Like({ infos }) {
       });
   }, [likesInfo.liked]);
 
-  console.log(likesInfo)
-
   useEffect(() => {
     if (likesInfo.likes === 0) {
-      setInfoText('Ninguém curtiu este post');
+      setInfoText("Ninguém curtiu este post");
     } else if (likesInfo.likes === 1) {
-      setInfoText(likesInfo.likesUsers[0]?.username + ' curtiu este post');
+      setInfoText(likesInfo.likesUsers[0]?.username + " curtiu este post");
     } else if (likesInfo.likes === 2) {
       setInfoText(
         `${likesInfo.likesUsers[0]?.username} e ${likesInfo.likesUsers[1]?.username} curtiram este post`
@@ -75,18 +71,22 @@ export default function Like({ infos }) {
       );
     }
   }, [likesInfo.likesUsers]);
-
+  console.log(likesInfo.likes)
   return (
     <>
       <Heart onClick={likePost} liked={likesInfo.liked} data-tip={infoText}>
         {likesInfo.liked ? (
-          <i><IoHeartSharp/></i>
+          <i>
+            <IoHeartSharp />
+          </i>
         ) : (
-          <i><IoHeartOutline/></i>
+          <i>
+            <IoHeartOutline />
+          </i>
         )}
         <p>{likesInfo.likes} likes</p>
       </Heart>
-      <ReactTooltip place='bottom' type='light' effect='solid' />
+      <ReactTooltip place="bottom" type="light" effect="solid" />
     </>
   );
 }
@@ -106,13 +106,14 @@ const Heart = styled.div`
   p {
     margin-top: 5px;
     font-size: 11px;
-    color:#FFFFFF;
+    color: #ffffff;
   }
 
   i {
     font-size: 25px;
-    color: ${(props) => (props.liked ? 'red' : '#FFFFFF')};
+    color: ${(props) => (props.liked ? "red" : "#FFFFFF")};
   }
+  
   :hover {
     cursor: pointer;
   }
