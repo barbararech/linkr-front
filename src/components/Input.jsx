@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import {DebounceInput} from 'react-debounce-input';
 import debounce from "lodash.debounce";
+import { Link } from "react-router-dom";
 
 export default function Input () {
 
@@ -40,7 +41,7 @@ export default function Input () {
 
 function Users({ username, pictureUrl }) {
         return (
-          <UserList>
+          <UserList> 
             <div className="user">
               <div>
                 <img src={pictureUrl} alt={'img'} />
@@ -63,11 +64,13 @@ function Users({ username, pictureUrl }) {
             {searchInput.length > 2
                 ? filteredResults.map((user) => {
                     return (
+                      <Link to={`/user/${user.id}`}>
                         <Users
                         id={user.id}
                         username={user.username}
                         pictureUrl={user.pictureUrl}
                         />
+                      </Link>
                     );
                     })
                 : ""}

@@ -44,7 +44,7 @@ export default function UserPage() {
 
   useEffect(() => {
     const request = axios.get(
-      `https://projeto17-linkr-backend.herokuapp.com/${id}`,
+       `https://projeto17-linkr-backend.herokuapp.com/user/${id}`,
       config
     );
     setLoading(true);
@@ -63,7 +63,7 @@ export default function UserPage() {
   
   useEffect(() => {
     const request = axios.get(
-        `https://projeto17-linkr-backend.herokuapp.com/${id}`,
+        `https://projeto17-linkr-backend.herokuapp.com/username/${id}`,
         config
       );
     request.then((response)=>{
