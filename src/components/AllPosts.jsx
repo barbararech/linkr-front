@@ -8,6 +8,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 import Like from "./Like.jsx";
+import { Link } from "react-router-dom";
 
 export default function AllPosts({
   id,
@@ -121,7 +122,8 @@ export default function AllPosts({
     <IconContext.Provider value={{ color: "#FFFFFF", fontSize: "16px" }}>
       <Posts>
         <div>
-          <img src={pictureUrl} />
+         <Link to={`/user/${userId}`}> <img src={pictureUrl} />
+         </Link>
           <Like infos={(id = { id })} />
         </div>
         <div className="postInfo">
