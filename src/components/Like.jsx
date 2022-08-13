@@ -1,33 +1,39 @@
-import styled from 'styled-components';
-import ReactTooltip from 'react-tooltip';
-import { useState, useEffect } from 'react';
+import styled from "styled-components";
+import ReactTooltip from "react-tooltip";
+import { useState, useEffect } from "react";
 import { useUserData } from "../contexts/userContext.jsx";
 import axios from 'axios';
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
 export default function Like({ infos }) {
-  const URL = 'https://projeto17-linkr-backend.herokuapp.com';
+  const URL = "https://projeto17-linkr-backend.herokuapp.com";
   const { id } = infos;
   let postId = id || 1;
   const [userData] = useUserData();
-  const [infoText, setInfoText] = useState('ninguém curtiu este post');
+  const [infoText, setInfoText] = useState("ninguém curtiu este post");
   const [likesInfo, setLikesInfo] = useState({
-    likesUsers: [{ username: 'Você' }, { username: 'Fulano' }],
+    likesUsers: [{ username: "Você" }, { username: "Fulano" }],
     liked: false,
     likes: 0,
   });
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userData.token}`, //Padrão da API (Bearer Authentication)
+    },
+  };
+
   function likePost() {
     let newURL = URL;
     if (!likesInfo.liked) {
-      newURL = URL + '/like/' + postId;
+      newURL = URL + "/like/" + postId;
     } else {
-      newURL = URL + '/dislike/' + postId;
+      newURL = URL + "/dislike/" + postId;
     }
     setLikesInfo({ ...likesInfo, liked: !likesInfo.liked });
     axios
-      .post(newURL, {}, { headers: { Authorization: `Bearer ${userData.token}` } })
+      .post(newURL, config)
       .then((response) => {
         console.log(response);
       })
@@ -36,11 +42,7 @@ export default function Like({ infos }) {
 
   useEffect(() => {
     axios
-      .get(`${URL}/likes/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${userData.token}`,
-        },
-      })
+      .get(`${URL}/likes/${postId}`, config)
       .then((res) => {
         console.log(res.data);
         if (res.data) {
@@ -54,11 +56,11 @@ export default function Like({ infos }) {
   }, [likesInfo.liked]);
 
   useEffect(() => {
-    if (likesInfo.likes == 0) {
-      setInfoText('Ninguém curtiu este post');
-    } else if (likesInfo.likes == 1) {
-      setInfoText(likesInfo.likesUsers[0]?.username + ' curtiu este post');
-    } else if (likesInfo.likes == 2) {
+    if (likesInfo.likes === 0) {
+      setInfoText("Ninguém curtiu este post");
+    } else if (likesInfo.likes === 1) {
+      setInfoText(likesInfo.likesUsers[0]?.username + " curtiu este post");
+    } else if (likesInfo.likes === 2) {
       setInfoText(
         `${likesInfo.likesUsers[0]?.username} e ${likesInfo.likesUsers[1]?.username} curtiram este post`
       );
@@ -70,7 +72,7 @@ export default function Like({ infos }) {
       );
     }
   }, [likesInfo.likesUsers]);
-
+  console.log(likesInfo.likes)
   return (
     <>
    
@@ -102,6 +104,7 @@ const Heart = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   p {
     margin-top: 5px;
     font-size: 11px;
