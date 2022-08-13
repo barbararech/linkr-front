@@ -102,9 +102,9 @@ export default function AllPosts({id, username, pictureUrl, link, article, urlTi
         <Posts>
           <div>
             <img src={pictureUrl}/>
+            <Like infos={id={id}}/>
           </div>
-          <Like infos={id={id}}/>
-          <div className="postInfo" id={id}>
+          <div className="postInfo">
             <div className='postHeader'>
               <span>
                 <h2>{username}</h2>              
