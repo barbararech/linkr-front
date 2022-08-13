@@ -260,14 +260,13 @@ const Posts = styled.div`
   .urlInfo {
     width: 503px;
     height: 155px;
-    /* border: 1px solid #4d4d4d; */
+    border: 1px solid #4d4d4d;
     border-radius: 11px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
     padding: 20px 0px 20px 20px;
-    border: 1px solid red;
   }
 
   .urlInfo > h3 {
