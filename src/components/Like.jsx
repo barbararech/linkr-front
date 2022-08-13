@@ -33,7 +33,7 @@ export default function Like({ infos }) {
     }
     setLikesInfo({ ...likesInfo, liked: !likesInfo.liked });
     axios
-      .post(newURL, config)
+      .post(newURL,{}, config)
       .then((response) => {
         console.log(response);
       })
