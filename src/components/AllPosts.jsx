@@ -9,6 +9,9 @@ import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 import Like from "./Like.jsx";
 import { Link } from "react-router-dom";
+import { ReactTagify } from "react-tagify";
+import { useNavigate } from "react-router-dom";
+
 
 export default function AllPosts({
   id,
@@ -30,6 +33,7 @@ export default function AllPosts({
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [userData] = useUserData();
   const elem = useRef("");
+  const navigate = useNavigate();
   const config = {
     headers: {
       Authorization: `Bearer ${userData.token}`, //Padrão da API (Bearer Authentication)
@@ -148,7 +152,11 @@ export default function AllPosts({
                   <button style={{ display: "none" }} type="submit"></button>
                 </form>
               ) : (
-                <h3>{article}</h3>
+                <ReactTagify tagClicked={(e) => {
+                  const trendingtag = e.replace("#", "");
+                  navigate(`/hashtag/${trendingtag}`);
+                }}> <h3>{article}</h3></ReactTagify>
+                
               )}
             </span>
             <EditIcons />
