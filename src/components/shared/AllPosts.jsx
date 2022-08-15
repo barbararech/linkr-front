@@ -414,6 +414,51 @@ const ContainerModal = styled.div`
     background-color: #1877f2;
     color: #ffffff;
   }
+
+  @media (max-width: 935px) {
+    width: 70vw;
+    height: 262px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    box-sizin: border-box;
+
+  h4 {
+    width: 50vw;
+    height: 82px;
+    font-size: 24px;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .modalButtons {
+    width: 50vw;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .modalButtons > button {
+    width: 20vw;
+    height: 37px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    border: 0;
+  }
+
+  .back {
+    background-color: #ffffff;
+    color: #1877f2;
+  }
+
+  .delete {
+    background-color: #1877f2;
+    color: #ffffff;
+  }
+  }
 `;
 const modalStyle = {
   content: {
