@@ -1,13 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
+import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
+
 
 export default function Trending() {
   const [trending, setTrending] = useState([]);
   const [userData, setUserData] = useUserData();
   const { token } = userData;
+  const { refreshAxios, setRefreshAxios } = useContext(refreshAxiosContext);
 
   useEffect(() => {
     axios
@@ -21,7 +24,7 @@ export default function Trending() {
         const message = error.response.statusText;
         alert(message);
       });
-  }, []);
+  }, [refreshAxios]);
 
   function RenderTrending() {
     if (trending.length === 0) {

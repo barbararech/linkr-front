@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
+import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
 
 export default function NewPost() {
   const [loading, setLoading] = useState(false);
@@ -9,6 +10,7 @@ export default function NewPost() {
   const [text, setText] = useState("");
   const [userData] = useUserData();
   const [profilePic, setProfilePic] = useState("");
+  const { refreshAxios, setRefreshAxios } = useContext(refreshAxiosContext);
 
   useEffect(() => {
     axios
@@ -36,7 +38,9 @@ export default function NewPost() {
       .then(() => {
         alert("Post publicado com sucesso");
         setLoading(false);
-        window.location.reload(false);
+        setRefreshAxios(!refreshAxios);
+        setText("");
+        setUrl("");
       })
       .catch((e) => {
         setLoading(false);
@@ -126,7 +130,7 @@ const NewPostContainer = styled.div`
 
 const PublicationForm = styled.div`
   margin-top: 21px;
-  display:flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
 
