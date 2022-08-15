@@ -82,7 +82,10 @@ export default function HomePage({ axiosRequest, pageName }) {
         </Helmet>
         <Header />
         <Container>
-          <NewPost />
+        <ContainerPosts>
+        <Title>{pageName}</Title>
+          {pageName === "timeline" ? <NewPost /> : ""}
+          <LoadingDiv>
           <h1
             style={{
               color: "#FFFFFF",
@@ -95,6 +98,8 @@ export default function HomePage({ axiosRequest, pageName }) {
             An error occured while trying to fetch the posts, please refresh the
             page
           </h1>
+          </LoadingDiv>
+          </ContainerPosts>
         </Container>
       </>
     );
@@ -108,6 +113,7 @@ export default function HomePage({ axiosRequest, pageName }) {
         </Helmet>
         <Header />
         <Container>
+          <ContainerPosts>
           {pageName === "timeline" ? <NewPost /> : ""}
           <h1
             style={{
@@ -118,6 +124,7 @@ export default function HomePage({ axiosRequest, pageName }) {
           >
             There are no posts yet.
           </h1>
+          </ContainerPosts>
         </Container>
       </>
     );
@@ -135,6 +142,7 @@ export default function HomePage({ axiosRequest, pageName }) {
           {pageName === "timeline" ? <NewPost /> : ""}
           {loading ? (
             <>
+            <LoadingDiv>
               <h1
                 style={{
                   color: "#FFFFFF",
@@ -146,6 +154,7 @@ export default function HomePage({ axiosRequest, pageName }) {
                 Loading
               </h1>
               {loadingAnimation}
+              </LoadingDiv>
             </>
           ) : (
             <>
@@ -226,3 +235,9 @@ const Title = styled.h1`
     padding-left: 20px;
   }
 `;
+const LoadingDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: center;
+  `
