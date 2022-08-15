@@ -44,10 +44,12 @@ export default function Header() {
   return (
     <Container>
       <div className="top">
-        <div className="logo">
-          {" "}
-          <h2>linkr</h2>{" "}
-        </div>
+        <Link to="/timeline">
+          <div className="logo">
+            {" "}
+            <h2>linkr</h2>{" "}
+          </div>
+        </Link>
 
         <span className="toggle-desktop">
           <div className="input">
@@ -96,6 +98,7 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
   }
+
   .logo {
     margin-top: 12px;
     h2 {
@@ -195,10 +198,17 @@ const Container = styled.div`
       letter-spacing: 0.05em;
     }
   }
+
   .toggle-desktop {
   }
+
   .toggle-mobile {
     display: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: #ffffff;
   }
 
   @media (max-width: 935px) {
