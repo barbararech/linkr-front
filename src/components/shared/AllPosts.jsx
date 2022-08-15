@@ -122,6 +122,22 @@ export default function AllPosts({
       );
     }
   }
+
+  function UrlImage(){
+    if(urlImage[0]==="/"){
+      
+      const teste2 =  link.split('/')
+      const teste = `${teste2[0]}//${teste2[2]}${urlImage}`
+      return <img src={teste} className="urlInfoImg" alt="" />
+    }
+    if(urlImage === ""){
+      return <img src="https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png" className="urlInfoImg" alt="" />
+    }else{
+      return <img src={urlImage} className="urlInfoImg" alt="" />
+    }
+    
+  }
+
   return (
     <IconContext.Provider value={{ color: "#FFFFFF", fontSize: "16px" }}>
       <Posts>
@@ -184,7 +200,7 @@ export default function AllPosts({
               <h3 style={{ fontSize: "11px" }}>{link}</h3>
             </div>
             <div>
-              <img src={urlImage} className="urlInfoImg" alt="" />
+             <UrlImage/>
             </div>
           </div>
         </div>
