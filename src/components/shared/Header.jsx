@@ -4,7 +4,7 @@ import {
   useUserData,
   saveUserDataInLocalStorage,
 } from "../../contexts/userContext.jsx";
-import Input from "../Input.jsx";
+import Input from "../shared/Input.jsx";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineDown } from "react-icons/ai";
 import { AiOutlineUp } from "react-icons/ai";
