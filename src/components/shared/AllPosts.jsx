@@ -168,7 +168,7 @@ export default function AllPosts({
                   <button style={{ display: "none" }} type="submit"></button>
                 </form>
               ) : (
-                <ReactTagify tagClicked={(e) => {
+                <ReactTagify colors='#FFFFFF' tagClicked={(e) => {
                   const trendingtag = e.replace("#", "");
                   navigate(`/hashtag/${trendingtag}`);
                 }}> <h3>{article}</h3></ReactTagify>
