@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   useUserData,
   saveUserDataInLocalStorage,
-} from "../contexts/userContext.jsx";
-import Input from "./Input.jsx";
+} from "../../contexts/userContext.jsx";
+import Input from "../Input.jsx";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineDown } from "react-icons/ai";
 import { AiOutlineUp } from "react-icons/ai";
@@ -188,6 +188,7 @@ const Container = styled.div`
     border-radius: 0px 0px 0px 20px;
     position: absolute;
     z-index: 1;
+    cursor:pointer;
 
     h3 {
       font-family: "Lato";

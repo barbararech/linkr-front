@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useUserData } from "../contexts/userContext.jsx";
+import { useUserData } from "../../contexts/userContext.jsx";
 
 export default function Trending() {
   const [trending, setTrending] = useState([]);

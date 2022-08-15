@@ -1,12 +1,12 @@
-import Header from "./Header.jsx";
-import Trending from "./Trending.jsx";
+import Header from "./shared/Header.jsx";
+import Trending from "./shared/Trending.jsx";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 import { Oval } from "react-loader-spinner";
-import AllPosts from "./AllPosts.jsx";
+import AllPosts from "./shared/AllPosts.jsx";
 import { useParams } from "react-router-dom";
 
 

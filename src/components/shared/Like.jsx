@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ReactTooltip from "react-tooltip";
 import { useState, useEffect } from "react";
-import { useUserData } from "../contexts/userContext.jsx";
+import { useUserData } from "../../contexts/userContext.jsx";
 import axios from 'axios';
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { IconContext } from "react-icons";

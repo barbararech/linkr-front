@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useUserData } from "../contexts/userContext.jsx";
+import { useUserData } from "../../contexts/userContext.jsx";
 
 export default function NewPost() {
   const [loading, setLoading] = useState(false);
