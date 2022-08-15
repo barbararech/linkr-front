@@ -91,7 +91,8 @@ const Container = styled.div`
   .split {
     background-color: #E7E7E7;
     border-radius: 6px;
-
+    display: flex;
+    flex-direction: column;
   }
 
   input {
