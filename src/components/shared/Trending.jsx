@@ -96,7 +96,7 @@ const Hashtags = styled.div`
   font-family: "Lato";
   font-weight: 700;
   font-size: 19px;
-  line-height: 23px;
+  line-height: 30px;
   letter-spacing: 0.05em;
 
   a {
