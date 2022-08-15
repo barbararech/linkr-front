@@ -131,7 +131,7 @@ export default function UserPage() {
             There are no posts yet.
           </h1>
             </ContainerPosts>
-          <Trending />
+          <Trending refreshAxios={refreshAxios}/>
         </Container>
       </>
     );

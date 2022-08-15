@@ -3,12 +3,13 @@ import styled from "styled-components";
 import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
 
-export default function NewPost() {
+export default function NewPost({refreshAxios, setRefreshAxios}) {
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
   const [userData] = useUserData();
   const [profilePic, setProfilePic] = useState("");
+  
 
   useEffect(() => {
     axios
@@ -36,7 +37,7 @@ export default function NewPost() {
       .then(() => {
         alert("Post publicado com sucesso");
         setLoading(false);
-        window.location.reload(false);
+        setRefreshAxios(!refreshAxios);
       })
       .catch((e) => {
         setLoading(false);

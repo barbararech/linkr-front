@@ -78,7 +78,7 @@ export default function TimelinePage() {
         </Helmet>
         <Header />
         <Container>
-          <NewPost />
+          <NewPost refreshAxios={refreshAxios} setRefreshAxios={setRefreshAxios}/>
           <h1
             style={{
               color: "#FFFFFF",
@@ -104,7 +104,7 @@ export default function TimelinePage() {
         </Helmet>
         <Header />
         <Container>
-          <NewPost />
+          <NewPost refreshAxios={refreshAxios} setRefreshAxios={setRefreshAxios}/>
           <h1
             style={{
               color: "#FFFFFF",
@@ -128,7 +128,7 @@ export default function TimelinePage() {
       <Container>
         <ContainerPosts>
         <Title>timeline</Title>
-          <NewPost />
+          <NewPost refreshAxios={refreshAxios} setRefreshAxios={setRefreshAxios}/>
           {loading ? (
             <>
               <h1
@@ -178,7 +178,7 @@ export default function TimelinePage() {
             </>
           )}
         </ContainerPosts>
-        <Trending />
+        <Trending refreshAxios={refreshAxios}/>
       </Container>
     </>
   );

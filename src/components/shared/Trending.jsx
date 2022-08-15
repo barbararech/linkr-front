@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
 
-export default function Trending() {
+export default function Trending(refreshAxios) {
   const [trending, setTrending] = useState([]);
   const [userData, setUserData] = useUserData();
   const { token } = userData;
@@ -21,7 +21,7 @@ export default function Trending() {
         const message = error.response.statusText;
         alert(message);
       });
-  }, []);
+  }, [refreshAxios]);
 
   function RenderTrending() {
     if (trending.length === 0) {

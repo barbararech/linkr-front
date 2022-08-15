@@ -171,7 +171,7 @@ export default function HashtagPage() {
             </>
           )}
         </ContainerPosts>
-        <Trending />
+        <Trending refreshAxios={refreshAxios}/>
       </Container>
     </>
   );
