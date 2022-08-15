@@ -38,6 +38,8 @@ export default function NewPost({refreshAxios, setRefreshAxios}) {
         alert("Post publicado com sucesso");
         setLoading(false);
         setRefreshAxios(!refreshAxios);
+        setText("");
+        setUrl("");
       })
       .catch((e) => {
         setLoading(false);
