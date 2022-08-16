@@ -7,37 +7,39 @@ import { Link } from "react-router-dom";
 
 export default function Input() {
   const [APIData, setAPIData] = useState([]);
-  const [filteredResults, setFilteredResults] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
-  useEffect(() => {
-    const promise = axios.get(
-      "https://projeto17-linkr-backend.herokuapp.com/users"
-    );
+  const config = {
+      username: searchInput
+  };
 
-    promise.then((response) => {
-      setAPIData([...response.data]);
-      console.log(APIData);
-    });
-  }, []);
+  useEffect(() => {
+
+    if (searchInput.length > 2) {
+
+      axios({
+        method: "POST",
+        url: "https://projeto17-linkr-backend.herokuapp.com/search",
+        data: config
+      })
+        .then(response => {
+          setAPIData([...response.data]);
+          console.log(APIData);
+          console.log('Update API');
+          console.log(searchInput)
+        })
+        .catch(error => {
+        });
+  
+
+    }
+
+  }, [searchInput]);
 
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
-    if (searchInput.length != 0) {
-      const filteredData = APIData.filter((item) => {
-        return Object.values(item.username)
-          .join("")
-          .toLowerCase()
-          .includes(searchInput.toLowerCase());
-      });
-      setFilteredResults(filteredData);
-    } else {
-      //setFilteredResults(APIData);
-    }
-  };
 
-  const updateQuery = (e) => searchItems(e?.target?.value);
-  const debouncedOnChange = debounce(updateQuery, 200);
+  };
 
   function Users({ username, pictureUrl }) {
     return (
@@ -58,11 +60,10 @@ export default function Input() {
   return (
     <Container>
       <div className="split">
-        <input placeholder="Search for people" onChange={debouncedOnChange} />
-        {/* <DebounceInput placeholder="Search for people" debounceTimeout={200} onChange={(e) => searchItems(e.target.value)} /> */}
+        <DebounceInput placeholder="Search for people" debounceTimeout={300} minLength={3} onChange={(e) => searchItems(e.target.value)} />
 
         {searchInput.length > 2
-          ? filteredResults.map((user) => {
+          ? APIData.map((user) => {
               return (
                 <Link to={`/user/${user.id}`}>
                   <Users
