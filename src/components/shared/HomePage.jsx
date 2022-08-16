@@ -6,10 +6,12 @@ import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
-import { Oval } from "react-loader-spinner";
 import AllPosts from "./AllPosts.jsx";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
-import NewPostsAlert from "./NewPostsAlert.jsx";
+
+import ConnectionError from "./ConnectionError.jsx";
+import WithoutPosts from "./WithoutPosts.jsx";
+import LoadingAnimation from "./LoadingAnimation.jsx";
 
 export default function HomePage({ axiosRequest, pageName }) {
   const [posts, setPosts] = useState([]);
@@ -18,24 +20,6 @@ export default function HomePage({ axiosRequest, pageName }) {
   const [connectError, setConnectError] = useState("");
   const [sessionUserId, setSessionUserId] = useState("");
   const [loading, setLoading] = useState(false);
-
-  console.log(axiosRequest);
-  console.log(pageName);
-
-  let loadingAnimation = (
-    <Oval
-      height={80}
-      width={80}
-      color="#FFFFFF"
-      wrapperStyle={{}}
-      wrapperClass=""
-      visible={true}
-      ariaLabel="oval-loading"
-      secondaryColor="#000000"
-      strokeWidth={2}
-      strokeWidthSecondary={2}
-    />
-  );
 
   const config = {
     headers: {
@@ -56,6 +40,7 @@ export default function HomePage({ axiosRequest, pageName }) {
       })
       .catch((err) => {
         setConnectError(err);
+        setLoading(false);
         console.error(err);
       });
   }, [refreshAxios]);
@@ -75,59 +60,44 @@ export default function HomePage({ axiosRequest, pageName }) {
       });
   }, []);
 
-  if (connectError !== "") {
-    return (
-      <>
-        <Helmet>
-          <style>{"body { background-color: #333333; }"}</style>
-        </Helmet>
-        <Header />
-        <Container>
-          <ContainerPosts>
-            <Title>{pageName}</Title>
-            {pageName === "timeline" ? <NewPost /> : ""}
-            <LoadingDiv>
-              <h1
-                style={{
-                  color: "#FFFFFF",
-                  fontFamily: "Oswald",
-                  marginTop: "100px",
-                  textAlign: "center",
-                  fontSize: "40px",
-                }}
-              >
-                An error occured while trying to fetch the posts, please refresh
-                the page
-              </h1>
-            </LoadingDiv>
-          </ContainerPosts>
-        </Container>
-      </>
-    );
-  }
+  function RenderPosts() {
+    if (connectError !== "") {
+      return <ConnectionError />;
+    }
 
-  if (posts.length === 0 && loading === false) {
-    return (
-      <>
-        <Helmet>
-          <style>{"body { background-color: #333333; }"}</style>
-        </Helmet>
-        <Header />
-        <Container>
-          <ContainerPosts>
-            {pageName === "timeline" ? <NewPost /> : ""}
-            <h1
-              style={{
-                color: "#FFFFFF",
-                fontFamily: "Oswald",
-                marginTop: "100px",
-              }}
-            >
-              There are no posts yet.
-            </h1>
-          </ContainerPosts>
-        </Container>
-      </>
+    if (posts.length === 0 && loading === false) {
+      return <WithoutPosts />;
+    }
+
+    return posts.map(
+      ({
+        id,
+        username,
+        pictureUrl,
+        link,
+        article,
+        urlTitle,
+        urlDescription,
+        urlImage,
+        userId,
+      }) => {
+        return (
+          <AllPosts
+            id={id}
+            username={username}
+            pictureUrl={pictureUrl}
+            link={link}
+            article={article}
+            urlTitle={urlTitle}
+            urlDescription={urlDescription}
+            urlImage={urlImage}
+            userId={userId}
+            sessionUserId={sessionUserId}
+            refreshAxios={refreshAxios}
+            setRefreshAxios={setRefreshAxios}
+          />
+        );
+      }
     );
   }
 
@@ -146,56 +116,7 @@ export default function HomePage({ axiosRequest, pageName }) {
             axiosRequest={axiosRequest}
             pageName={pageName}
           />
-          {loading ? (
-            <>
-              <LoadingDiv>
-                <h1
-                  style={{
-                    color: "#FFFFFF",
-                    fontFamily: "Oswald",
-                    marginTop: "100px",
-                    marginBottom: "10px",
-                  }}
-                >
-                  Loading
-                </h1>
-                {loadingAnimation}
-              </LoadingDiv>
-            </>
-          ) : (
-            <>
-              {posts.map(
-                ({
-                  id,
-                  username,
-                  pictureUrl,
-                  link,
-                  article,
-                  urlTitle,
-                  urlDescription,
-                  urlImage,
-                  userId,
-                }) => {
-                  return (
-                    <AllPosts
-                      id={id}
-                      username={username}
-                      pictureUrl={pictureUrl}
-                      link={link}
-                      article={article}
-                      urlTitle={urlTitle}
-                      urlDescription={urlDescription}
-                      urlImage={urlImage}
-                      userId={userId}
-                      sessionUserId={sessionUserId}
-                      refreshAxios={refreshAxios}
-                      setRefreshAxios={setRefreshAxios}
-                    />
-                  );
-                }
-              )}
-            </>
-          )}
+          {loading ? <LoadingAnimation /> : RenderPosts()}
         </ContainerPosts>
         <Trending />
       </Container>
@@ -240,11 +161,4 @@ const Title = styled.h1`
     margin-bottom: 19px;
     padding-left: 20px;
   }
-`;
-
-const LoadingDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `;
