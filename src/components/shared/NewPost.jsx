@@ -182,6 +182,7 @@ const PublicationForm = styled.div`
       position: absolute;
       bottom: 16px;
       right: 22px;
+      cursor: pointer;
     }
 
     @media (max-width: 935px) {
