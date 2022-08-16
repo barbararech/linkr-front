@@ -8,7 +8,7 @@ import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
 import AllPosts from "./AllPosts.jsx";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
-
+import NewPostsAlert from "./NewPostsAlert.jsx";
 import ConnectionError from "./ConnectionError.jsx";
 import WithoutPosts from "./WithoutPosts.jsx";
 import LoadingAnimation from "./LoadingAnimation.jsx";

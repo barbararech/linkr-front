@@ -3,11 +3,10 @@ import { useState, useEffect, useContext } from "react";
 import { useInterval } from "usehooks-ts";
 import axios from "axios";
 import { HiRefresh } from "react-icons/hi";
-
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
 import { useUserData } from "../../contexts/userContext.jsx";
 
-export default function LoadingPostsAlert({ posts, axiosRequest, pageName }) {
+export default function NewPostsAlert({ posts, axiosRequest, pageName }) {
   const [newPosts, setNewPosts] = useState([]);
   const { refreshAxios, setRefreshAxios } = useContext(refreshAxiosContext);
   const [userData] = useUserData();

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ReactTooltip from "react-tooltip";
 import { useState, useEffect } from "react";
 import { useUserData } from "../../contexts/userContext.jsx";
-import axios from 'axios';
+import axios from "axios";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
@@ -33,7 +33,7 @@ export default function Like({ infos }) {
     }
     setLikesInfo({ ...likesInfo, liked: !likesInfo.liked });
     axios
-      .post(newURL,{}, config)
+      .post(newURL, {}, config)
       .then((response) => {
         console.log(response);
       })
@@ -44,7 +44,6 @@ export default function Like({ infos }) {
     axios
       .get(`${URL}/likes/${postId}`, config)
       .then((res) => {
-        console.log(res.data);
         if (res.data) {
           const info = res.data;
           setLikesInfo(info);
@@ -72,24 +71,22 @@ export default function Like({ infos }) {
       );
     }
   }, [likesInfo.likesUsers]);
-  console.log(likesInfo.likes)
+
   return (
     <>
-   
       <Heart onClick={likePost} liked={likesInfo.liked} data-tip={infoText}>
         {likesInfo.liked ? (
-           <IconContext.Provider value={{color:'red', size:"20px"}}>
+          <IconContext.Provider value={{ color: "red", size: "20px" }}>
             <AiFillHeart></AiFillHeart>
           </IconContext.Provider>
         ) : (
-          <IconContext.Provider value={{color:"#FFFFFF", size: "20px"}}> 
+          <IconContext.Provider value={{ color: "#FFFFFF", size: "20px" }}>
             <AiOutlineHeart></AiOutlineHeart>
-          </IconContext.Provider> 
+          </IconContext.Provider>
         )}
         <p>{likesInfo.likes} likes</p>
       </Heart>
-      <ReactTooltip place='bottom' type='light' effect='solid' />
-    
+      <ReactTooltip place="bottom" type="light" effect="solid" />
     </>
   );
 }
@@ -108,7 +105,7 @@ const Heart = styled.div`
   p {
     margin-top: 5px;
     font-size: 11px;
-    color:#FFFFFF;
+    color: #ffffff;
   }
   :hover {
     cursor: pointer;
