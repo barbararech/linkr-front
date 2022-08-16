@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from "react";
 import { useInterval } from "usehooks-ts";
 import axios from "axios";
 import { HiRefresh } from "react-icons/hi";
-import { IconContext } from "react-icons";
 
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
 import { useUserData } from "../../contexts/userContext.jsx";
@@ -28,7 +27,7 @@ export default function LoadingPostsAlert({ posts, axiosRequest, pageName }) {
   }, timeUpdatePosts);
 
   function getNewPosts() {
-    useEffect(() => {
+    // useEffect(() => {
       const request = axios.get(
         `https://projeto17-linkr-backend.herokuapp.com/${axiosRequest}`,
         config
@@ -40,10 +39,11 @@ export default function LoadingPostsAlert({ posts, axiosRequest, pageName }) {
         .catch((err) => {
           console.error(err);
         });
-    }, []);
+    // }, []);
+    console.log(newPosts);
   }
 
-  console.log(newPosts);
+
 
   function renderAlert() {
     const diffPosts = newPosts.length - posts.length;
@@ -53,7 +53,7 @@ export default function LoadingPostsAlert({ posts, axiosRequest, pageName }) {
     if (diffPosts > 1) {
       return (
         <Container>
-          <ButtonAlert onClick={setRefreshAxios(true)}>
+          <ButtonAlert onClick={()=> refreshAxios}>
             {diffPosts} new posts, load more!
             <i>
               <HiRefresh />
@@ -89,6 +89,7 @@ const ButtonAlert = styled.button`
   font-family: "Lato";
   font-size: 16px;
   color: #ffffff;
+  cursor: pointer;
 
   i {
     display: flex;
