@@ -19,41 +19,34 @@ export default function LoadingPostsAlert({ posts, axiosRequest, pageName }) {
     },
   };
 
-  console.log(axiosRequest);
-  console.log(pageName);
-
   useInterval(() => {
     getNewPosts();
   }, timeUpdatePosts);
 
   function getNewPosts() {
-    // useEffect(() => {
-      const request = axios.get(
-        `https://projeto17-linkr-backend.herokuapp.com/${axiosRequest}`,
-        config
-      );
-      request
-        .then((response) => {
-          setNewPosts(response.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    // }, []);
+    const request = axios.get(
+      `https://projeto17-linkr-backend.herokuapp.com/${axiosRequest}`,
+      config
+    );
+    request
+      .then((response) => {
+        console.log(response.data);
+        setNewPosts(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    console.log(posts);
     console.log(newPosts);
   }
 
-
-
   function renderAlert() {
     const diffPosts = newPosts.length - posts.length;
-    console.log(newPosts);
-    console.log(posts);
 
-    if (diffPosts > 1) {
+    if (diffPosts >= 1) {
       return (
         <Container>
-          <ButtonAlert onClick={()=> refreshAxios}>
+          <ButtonAlert onClick={()=>setRefreshAxios(!refreshAxios)}>
             {diffPosts} new posts, load more!
             <i>
               <HiRefresh />
