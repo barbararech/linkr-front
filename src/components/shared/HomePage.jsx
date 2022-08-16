@@ -9,6 +9,7 @@ import { useUserData } from "../../contexts/userContext.jsx";
 import { Oval } from "react-loader-spinner";
 import AllPosts from "./AllPosts.jsx";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
+import NewPostsAlert from "./NewPostsAlert.jsx";
 
 export default function HomePage({ axiosRequest, pageName }) {
   const [posts, setPosts] = useState([]);
@@ -82,23 +83,23 @@ export default function HomePage({ axiosRequest, pageName }) {
         </Helmet>
         <Header />
         <Container>
-        <ContainerPosts>
-        <Title>{pageName}</Title>
-          {pageName === "timeline" ? <NewPost /> : ""}
-          <LoadingDiv>
-          <h1
-            style={{
-              color: "#FFFFFF",
-              fontFamily: "Oswald",
-              marginTop: "100px",
-              textAlign: "center",
-              fontSize: "40px",
-            }}
-          >
-            An error occured while trying to fetch the posts, please refresh the
-            page
-          </h1>
-          </LoadingDiv>
+          <ContainerPosts>
+            <Title>{pageName}</Title>
+            {pageName === "timeline" ? <NewPost /> : ""}
+            <LoadingDiv>
+              <h1
+                style={{
+                  color: "#FFFFFF",
+                  fontFamily: "Oswald",
+                  marginTop: "100px",
+                  textAlign: "center",
+                  fontSize: "40px",
+                }}
+              >
+                An error occured while trying to fetch the posts, please refresh
+                the page
+              </h1>
+            </LoadingDiv>
           </ContainerPosts>
         </Container>
       </>
@@ -114,16 +115,16 @@ export default function HomePage({ axiosRequest, pageName }) {
         <Header />
         <Container>
           <ContainerPosts>
-          {pageName === "timeline" ? <NewPost /> : ""}
-          <h1
-            style={{
-              color: "#FFFFFF",
-              fontFamily: "Oswald",
-              marginTop: "100px",
-            }}
-          >
-            There are no posts yet.
-          </h1>
+            {pageName === "timeline" ? <NewPost /> : ""}
+            <h1
+              style={{
+                color: "#FFFFFF",
+                fontFamily: "Oswald",
+                marginTop: "100px",
+              }}
+            >
+              There are no posts yet.
+            </h1>
           </ContainerPosts>
         </Container>
       </>
@@ -140,20 +141,25 @@ export default function HomePage({ axiosRequest, pageName }) {
         <ContainerPosts>
           <Title>{pageName}</Title>
           {pageName === "timeline" ? <NewPost /> : ""}
+          <NewPostsAlert
+            posts={posts}
+            axiosRequest={axiosRequest}
+            pageName={pageName}
+          />
           {loading ? (
             <>
-            <LoadingDiv>
-              <h1
-                style={{
-                  color: "#FFFFFF",
-                  fontFamily: "Oswald",
-                  marginTop: "100px",
-                  marginBottom: "10px",
-                }}
-              >
-                Loading
-              </h1>
-              {loadingAnimation}
+              <LoadingDiv>
+                <h1
+                  style={{
+                    color: "#FFFFFF",
+                    fontFamily: "Oswald",
+                    marginTop: "100px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Loading
+                </h1>
+                {loadingAnimation}
               </LoadingDiv>
             </>
           ) : (
@@ -235,9 +241,10 @@ const Title = styled.h1`
     padding-left: 20px;
   }
 `;
+
 const LoadingDiv = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
-  `
+`;
