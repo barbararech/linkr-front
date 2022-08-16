@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 
-
 export default function AllPosts({
   id,
   username,
@@ -74,7 +73,6 @@ export default function AllPosts({
     );
     request
       .then((response) => {
-        console.log(response);
         setLoadingEdit(false);
         setEdit(false);
         setRefreshAxios(!refreshAxios);
@@ -96,7 +94,6 @@ export default function AllPosts({
     );
     request
       .then((response) => {
-        console.log(response);
         setLoadingDelete(false);
         setModal(false);
         setRefreshAxios(!refreshAxios);
@@ -123,27 +120,33 @@ export default function AllPosts({
     }
   }
 
-  function UrlImage(){
-    if(urlImage[0]==="/"){
-      
-      const teste2 =  link.split('/')
-      const teste = `${teste2[0]}//${teste2[2]}${urlImage}`
-      return <img src={teste} className="urlInfoImg" alt="" />
+  function UrlImage() {
+    if (urlImage[0] === "/") {
+      const teste2 = link.split("/");
+      const teste = `${teste2[0]}//${teste2[2]}${urlImage}`;
+      return <img src={teste} className="urlInfoImg" alt="" />;
     }
-    if(urlImage === ""){
-      return <img src="https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png" className="urlInfoImg" alt="" />
-    }else{
-      return <img src={urlImage} className="urlInfoImg" alt="" />
+    if (urlImage === "") {
+      return (
+        <img
+          src="https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png"
+          className="urlInfoImg"
+          alt=""
+        />
+      );
+    } else {
+      return <img src={urlImage} className="urlInfoImg" alt="" />;
     }
-    
   }
 
   return (
     <IconContext.Provider value={{ color: "#FFFFFF", fontSize: "16px" }}>
       <Posts>
         <div>
-         <Link to={`/user/${userId}`}> <img src={pictureUrl} />
-         </Link>
+          <Link to={`/user/${userId}`}>
+            {" "}
+            <img src={pictureUrl} />
+          </Link>
           <Like infos={(id = { id })} />
         </div>
         <div className="postInfo">
@@ -168,11 +171,16 @@ export default function AllPosts({
                   <button style={{ display: "none" }} type="submit"></button>
                 </form>
               ) : (
-                <ReactTagify colors='#FFFFFF' tagClicked={(e) => {
-                  const trendingtag = e.replace("#", "");
-                  navigate(`/hashtag/${trendingtag}`);
-                }}> <h3>{article}</h3></ReactTagify>
-                
+                <ReactTagify
+                  colors="#FFFFFF"
+                  tagClicked={(e) => {
+                    const trendingtag = e.replace("#", "");
+                    navigate(`/hashtag/${trendingtag}`);
+                  }}
+                >
+                  {" "}
+                  <h3>{article}</h3>
+                </ReactTagify>
               )}
             </span>
             <EditIcons />
@@ -200,7 +208,7 @@ export default function AllPosts({
               <h3 style={{ fontSize: "11px" }}>{link}</h3>
             </div>
             <div>
-             <UrlImage/>
+              <UrlImage />
             </div>
           </div>
         </div>
@@ -424,40 +432,40 @@ const ContainerModal = styled.div`
     justify-content: space-evenly;
     box-sizin: border-box;
 
-  h4 {
-    width: 50vw;
-    height: 82px;
-    font-size: 24px;
-    font-family: "Lato", sans-serif;
-    font-weight: 700;
-    color: #ffffff;
-    text-align: center;
-  }
+    h4 {
+      width: 50vw;
+      height: 82px;
+      font-size: 24px;
+      font-family: "Lato", sans-serif;
+      font-weight: 700;
+      color: #ffffff;
+      text-align: center;
+    }
 
-  .modalButtons {
-    width: 50vw;
-    display: flex;
-    justify-content: space-evenly;
-  }
+    .modalButtons {
+      width: 50vw;
+      display: flex;
+      justify-content: space-evenly;
+    }
 
-  .modalButtons > button {
-    width: 20vw;
-    height: 37px;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: 700;
-    border: 0;
-  }
+    .modalButtons > button {
+      width: 20vw;
+      height: 37px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 700;
+      border: 0;
+    }
 
-  .back {
-    background-color: #ffffff;
-    color: #1877f2;
-  }
+    .back {
+      background-color: #ffffff;
+      color: #1877f2;
+    }
 
-  .delete {
-    background-color: #1877f2;
-    color: #ffffff;
-  }
+    .delete {
+      background-color: #1877f2;
+      color: #ffffff;
+    }
   }
 `;
 const modalStyle = {

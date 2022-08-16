@@ -29,14 +29,11 @@ export default function NewPostsAlert({ posts, axiosRequest, pageName }) {
     );
     request
       .then((response) => {
-        console.log(response.data);
         setNewPosts(response.data);
       })
       .catch((err) => {
         console.error(err);
       });
-    console.log(posts);
-    console.log(newPosts);
   }
 
   function renderAlert() {

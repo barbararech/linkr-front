@@ -5,7 +5,6 @@ import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
 
-
 export default function Trending() {
   const [trending, setTrending] = useState([]);
   const [userData, setUserData] = useUserData();
@@ -38,7 +37,7 @@ export default function Trending() {
     return trending.map((hashtags, index) => {
       const { hashtag } = hashtags;
       return (
-        <Link to={`/hashtag/${hashtag}`}>
+        <Link to={`/hashtag/${hashtag}`} key={index}>
           <i> # {hashtag} </i>
         </Link>
       );
@@ -67,7 +66,7 @@ const TrendingContainer = styled.div`
   margin-top: 106px;
 
   @media (max-width: 935px) {
-    display:none;
+    display: none;
   }
 `;
 
