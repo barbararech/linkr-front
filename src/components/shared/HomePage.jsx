@@ -8,6 +8,7 @@ import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
 import AllPosts from "./AllPosts.jsx";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
+
 import ConnectionError from "./ConnectionError.jsx";
 import WithoutPosts from "./WithoutPosts.jsx";
 import LoadingAnimation from "./LoadingAnimation.jsx";
@@ -110,6 +111,11 @@ export default function HomePage({ axiosRequest, pageName }) {
         <ContainerPosts>
           <Title>{pageName}</Title>
           {pageName === "timeline" ? <NewPost /> : ""}
+          <NewPostsAlert
+            posts={posts}
+            axiosRequest={axiosRequest}
+            pageName={pageName}
+          />
           {loading ? <LoadingAnimation /> : RenderPosts()}
         </ContainerPosts>
         <Trending />
