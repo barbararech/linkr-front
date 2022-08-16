@@ -37,7 +37,6 @@ export default function Trending() {
 
     return trending.map((hashtags, index) => {
       const { hashtag } = hashtags;
-      console.log(hashtag);
       return (
         <Link to={`/hashtag/${hashtag}`}>
           <i> # {hashtag} </i>
