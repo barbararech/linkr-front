@@ -133,13 +133,13 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
           </PageName>
           {pageName.includes("posts") ? <FollowButton /> : ""}
         </HeaderTitle>
-        ;{pageName === "timeline" ? <NewPost /> : ""}
+        {pageName === "timeline" ? <NewPost /> : ""}
         <NewPostsAlert
           posts={posts}
           axiosRequest={axiosRequest}
           pageName={pageName}
         />
-        ;{RenderPosts()}
+        {RenderPosts()}
       </>
     );
   }
