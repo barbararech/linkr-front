@@ -12,8 +12,9 @@ import NewPostsAlert from "./NewPostsAlert.jsx";
 import ConnectionError from "./ConnectionError.jsx";
 import WithoutPosts from "./WithoutPosts.jsx";
 import LoadingAnimation from "./LoadingAnimation.jsx";
+import FollowButton from "./FollowButton.jsx";
 
-export default function HomePage({ axiosRequest, pageName }) {
+export default function HomePage({ axiosRequest, pageName, userImg }) {
   const [posts, setPosts] = useState([]);
   const { refreshAxios, setRefreshAxios } = useContext(refreshAxiosContext);
   const [userData] = useUserData();
@@ -53,6 +54,7 @@ export default function HomePage({ axiosRequest, pageName }) {
     requestId
       .then((response) => {
         setSessionUserId(response.data.id);
+        console.log(response.data);
       })
       .catch((err) => {
         setConnectError(err);
@@ -100,6 +102,7 @@ export default function HomePage({ axiosRequest, pageName }) {
       }
     );
   }
+  console.log(userImg);
 
   return (
     <>
@@ -109,7 +112,13 @@ export default function HomePage({ axiosRequest, pageName }) {
       <Header />
       <Container>
         <ContainerPosts>
-          <Title>{pageName}</Title>
+          <HeaderTitle userImg={userImg}>
+            <PageName>
+              {userImg ? <img src={userImg} alt="userImage" /> : ""}
+              <Title>{pageName}</Title>
+            </PageName>
+            {pageName.includes("posts") ? <FollowButton /> : ""}
+          </HeaderTitle>
           {pageName === "timeline" ? <NewPost /> : ""}
           <NewPostsAlert
             posts={posts}
@@ -147,18 +156,46 @@ const ContainerPosts = styled.div`
   }
 `;
 
+const HeaderTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 161%;
+  box-sizing: border-box;
+  margin-bottom: 40px;
+
+  img {
+    height: 50px;
+    width: 50px;
+    border-radius: 26.5px;
+    margin: 0px 20px;
+  }
+
+  @media (max-width: 935px) {
+    margin-left: ${(props) => (props.userImg ? "0px" : "20px")};
+    margin-right: 0px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+`;
+
+const PageName = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const Title = styled.h1`
   color: #ffffff;
   font-family: "Oswald";
   font-weight: 700;
   font-size: 43px;
   line-height: 64px;
-  margin-bottom: 43px;
+  height: 100%;
 
   @media (max-width: 935px) {
     font-size: 33px;
     line-height: 49px;
-    margin-bottom: 19px;
-    padding-left: 20px;
   }
 `;

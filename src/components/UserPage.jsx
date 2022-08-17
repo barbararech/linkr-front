@@ -9,6 +9,7 @@ export default function UserPage() {
   const { id } = useParams();
   const [userData] = useUserData();
   const [username, setUsername] = useState("");
+  const [userImg, setUserImg] = useState("");
   const { refreshAxios, setRefreshAxios } = useContext(refreshAxiosContext);
 
   const config = {
@@ -19,12 +20,13 @@ export default function UserPage() {
 
   useEffect(() => {
     const request = axios.get(
-      `https://projeto17-linkr-backend.herokuapp.com/username/${id}`,
+      `https://projeto17-linkr-backend.herokuapp.com/userinfo/${id}`,
       config
     );
     request
       .then((response) => {
         setUsername(response.data.username);
+        setUserImg(response.data.pictureUrl);
         setRefreshAxios(!refreshAxios)
       })
       .catch((err) => {
@@ -35,5 +37,5 @@ export default function UserPage() {
   const axiosRequest = `user/${id}`;
   const pageName = `${username}'s posts`;
 
-  return <HomePage axiosRequest={axiosRequest} pageName={pageName} />;
+  return <HomePage axiosRequest={axiosRequest} pageName={pageName} userImg={userImg} />;
 }
