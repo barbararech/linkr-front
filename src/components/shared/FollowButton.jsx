@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
@@ -52,7 +51,7 @@ export default function FollowButton() {
         const message = error.response.statusText;
         alert(message);
       });
-  }, [refreshAxios]);
+  }, []);
 
   function Follow() {
     setIsLoading(true);

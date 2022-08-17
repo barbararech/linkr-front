@@ -1,5 +1,5 @@
 import styled from "styled-components";
-export default function WithoutPosts() {
+export default function WithoutFriends() {
   return (
     <H1
       style={{
@@ -8,7 +8,7 @@ export default function WithoutPosts() {
         marginTop: "100px",
       }}
     >
-      No posts found from your friends!
+      You don't follow anyone yet. Search for new friends!
     </H1>
   );
 }

@@ -11,6 +11,7 @@ import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
 import NewPostsAlert from "./NewPostsAlert.jsx";
 import ConnectionError from "./ConnectionError.jsx";
 import WithoutPosts from "./WithoutPosts.jsx";
+import WithoutFriends from "./WithoutFriends.jsx";
 import LoadingAnimation from "./LoadingAnimation.jsx";
 import FollowButton from "./FollowButton.jsx";
 
@@ -20,6 +21,7 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
   const [userData] = useUserData();
   const [connectError, setConnectError] = useState("");
   const [sessionUserId, setSessionUserId] = useState("");
+  const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const config = {
@@ -62,13 +64,31 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`https://projeto17-linkr-backend.herokuapp.com/following`, config)
+      .then((response) => {
+        setFollowing(response.data);
+      })
+      .catch((error) => {
+        const message = error.response.statusText;
+        alert(message);
+      });
+  }, []);
+
+  console.log(following);
+  console.log(posts);
   function RenderPosts() {
     if (connectError !== "") {
       return <ConnectionError />;
     }
 
-    if (posts.length === 0 && loading === false) {
+    if (posts.length === 0 && loading === false && following.length !== 0) {
       return <WithoutPosts />;
+    }
+
+    if (following.length === 0 && loading === false) {
+      return <WithoutFriends />;
     }
 
     return posts.map(
@@ -102,7 +122,27 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
       }
     );
   }
-  console.log(userImg);
+
+  function RenderPage() {
+    return (
+      <>
+        <HeaderTitle userImg={userImg}>
+          <PageName>
+            {userImg ? <img src={userImg} alt="userImage" /> : ""}
+            <Title>{pageName}</Title>
+          </PageName>
+          {pageName.includes("posts") ? <FollowButton /> : ""}
+        </HeaderTitle>
+        ;{pageName === "timeline" ? <NewPost /> : ""}
+        <NewPostsAlert
+          posts={posts}
+          axiosRequest={axiosRequest}
+          pageName={pageName}
+        />
+        ;{RenderPosts()}
+      </>
+    );
+  }
 
   return (
     <>
@@ -112,20 +152,7 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
       <Header />
       <Container>
         <ContainerPosts>
-          <HeaderTitle userImg={userImg}>
-            <PageName>
-              {userImg ? <img src={userImg} alt="userImage" /> : ""}
-              <Title>{pageName}</Title>
-            </PageName>
-            {pageName.includes("posts") ? <FollowButton /> : ""}
-          </HeaderTitle>
-          {pageName === "timeline" ? <NewPost /> : ""}
-          <NewPostsAlert
-            posts={posts}
-            axiosRequest={axiosRequest}
-            pageName={pageName}
-          />
-          {loading ? <LoadingAnimation /> : RenderPosts()}
+          {loading ? <LoadingAnimation /> : <>{RenderPage()}</>}
         </ContainerPosts>
         <Trending />
       </Container>
@@ -173,7 +200,7 @@ const HeaderTitle = styled.div`
   }
 
   @media (max-width: 935px) {
-    margin-left: ${(props) => (props.userImg ? "0px" : "20px")};
+    padding-left: ${(props) => (props.userImg ? "0px" : "20px")};
     margin-right: 0px;
     margin-bottom: 20px;
     width: 100%;
