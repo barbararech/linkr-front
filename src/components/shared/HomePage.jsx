@@ -87,7 +87,7 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
       return <WithoutPosts />;
     }
 
-    if (following.length === 0 && loading === false) {
+    if ((following.length === 0 && pageName === "timeline") && loading === false) {
       return <WithoutFriends />;
     }
 
