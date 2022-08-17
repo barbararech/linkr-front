@@ -10,7 +10,8 @@ import AllPosts from "./AllPosts.jsx";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
 import NewPostsAlert from "./NewPostsAlert.jsx";
 import ConnectionError from "./ConnectionError.jsx";
-import WithoutPosts from "./WithoutPosts.jsx";
+import WithoutPosts from "./WithoutPosts ";
+import NoPostsYet from "./NoPostsYet.jsx";
 import WithoutFriends from "./WithoutFriends.jsx";
 import LoadingAnimation from "./LoadingAnimation.jsx";
 import FollowButton from "./FollowButton.jsx";
@@ -83,12 +84,21 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
       return <ConnectionError />;
     }
 
-    if (posts.length === 0 && loading === false && following.length !== 0) {
-      return <WithoutPosts />;
+    if (pageName.includes("posts") && loading === false && posts.length === 0) {
+      console.log("oii");
+      return <NoPostsYet />;
     }
 
-    if ((following.length === 0 && pageName === "timeline") && loading === false) {
+    if (
+      pageName === "timeline" &&
+      loading === false &&
+      following.length === 0
+    ) {
       return <WithoutFriends />;
+    }
+
+    if (posts.length === 0 && loading === false) {
+      return <WithoutPosts />;
     }
 
     return posts.map(
