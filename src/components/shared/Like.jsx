@@ -6,17 +6,11 @@ import axios from "axios";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
-export default function Like({ infos }) {
-  const URL = "https://projeto17-linkr-backend.herokuapp.com";
-  const { id } = infos;
-  let postId = id || 1;
+export default function Like({id}) {
   const [userData] = useUserData();
-  const [infoText, setInfoText] = useState("ninguém curtiu este post");
-  const [likesInfo, setLikesInfo] = useState({
-    likesUsers: [{ username: "Você" }, { username: "Fulano" }],
-    liked: false,
-    likes: 0,
-  });
+  const [toolTipText, setToolTipText] = useState("");
+  const [likesCount, setLikesCount] = useState([]);
+  const [userLiked, setUserLiked] = useState(false)
 
   const config = {
     headers: {
@@ -24,58 +18,65 @@ export default function Like({ infos }) {
     },
   };
 
-  function likePost() {
-    let newURL = URL;
-    if (!likesInfo.liked) {
-      newURL = URL + "/like/" + postId;
+  function setLike() {
+    if (!userLiked) {
+      config.headers.action = "like"
     } else {
-      newURL = URL + "/dislike/" + postId;
+      config.headers.action = "dislike"
     }
-    setLikesInfo({ ...likesInfo, liked: !likesInfo.liked });
-    axios
-      .post(newURL, {}, config)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((e) => console.log(e));
+   const promise = axios.post(`https://projeto17-linkr-backend.herokuapp.com/like/${id}`, {}, config)  
+   promise.then((response) => {
+        setUserLiked(!userLiked);
+    }).catch((err) => {
+      console.error(err)
+    });
   }
 
   useEffect(() => {
-    axios
-      .get(`${URL}/likes/${postId}`, config)
-      .then((res) => {
-        if (res.data) {
-          const info = res.data;
-          setLikesInfo(info);
-        }
+    const request = axios.get(`https://projeto17-linkr-backend.herokuapp.com/likes/${id}`, config)
+    request.then((response) => {
+          setLikesCount(response.data.likes)
+          setUserLiked(response.data.userLiked);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [likesInfo.liked]);
+  }, [userLiked]);
 
   useEffect(() => {
-    if (likesInfo.likes === 0) {
-      setInfoText("Ninguém curtiu este post");
-    } else if (likesInfo.likes === 1) {
-      setInfoText(likesInfo.likesUsers[0]?.username + " curtiu este post");
-    } else if (likesInfo.likes === 2) {
-      setInfoText(
-        `${likesInfo.likesUsers[0]?.username} e ${likesInfo.likesUsers[1]?.username} curtiram este post`
-      );
-    } else if (likesInfo.likes > 2) {
-      setInfoText(
-        `${likesInfo.likesUsers[0]?.username}, ${
-          likesInfo.likesUsers[1]?.username
-        } e outras ${likesInfo.likes * 1 - 2} pessoas`
+    if (likesCount.length === 0) {
+      setToolTipText("Ninguém curtiu este post");
+    }
+    
+    if (likesCount.length === 1) {
+      setToolTipText(likesCount[0]?.username + " curtiu este post");
+    }
+    
+    if (likesCount.length === 2) {
+      setToolTipText(
+        `${likesCount[0]?.username} e ${likesCount[1]?.username} curtiram este post`
       );
     }
-  }, [likesInfo.likesUsers]);
+    
+    if (likesCount.length === 3) {
+      setToolTipText(
+        `${likesCount[0]?.username}, ${likesCount[1]?.username} e 
+        outra pessoa`
+      );
+    }
+    
+    if (likesCount.length > 3) {
+      setToolTipText(
+        `${likesCount[0]?.username}, ${likesCount[1]?.username} e 
+        outras ${likesCount.length * 1 - 2} pessoas`
+      );
+    }
+  }, [userLiked]);
 
   return (
     <>
-      <Heart onClick={likePost} liked={likesInfo.liked} data-tip={infoText}>
-        {likesInfo.liked ? (
+      <Reaction onClick={setLike} data-tip={toolTipText}>
+        {userLiked ? (
           <IconContext.Provider value={{ color: "red", size: "20px" }}>
             <AiFillHeart></AiFillHeart>
           </IconContext.Provider>
@@ -84,19 +85,17 @@ export default function Like({ infos }) {
             <AiOutlineHeart></AiOutlineHeart>
           </IconContext.Provider>
         )}
-        <p>{likesInfo.likes} likes</p>
-      </Heart>
+        <p>{likesCount.length} likes</p>
+      </Reaction>
       <ReactTooltip place="bottom" type="light" effect="solid" />
     </>
   );
 }
 
-const Heart = styled.div`
+const Reaction = styled.div`
   width: 50px;
   height: 50px;
   margin-left: 18px;
-  left: 0;
-  bottom: 140px;
   display: flex;
   flex-direction: column;
   justify-content: center;

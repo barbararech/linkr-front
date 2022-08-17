@@ -147,7 +147,7 @@ export default function AllPosts({
             {" "}
             <img src={pictureUrl} />
           </Link>
-          <Like infos={(id = { id })} />
+          <Like id={id} />
         </div>
         <div className="postInfo">
           <div className="postHeader">
