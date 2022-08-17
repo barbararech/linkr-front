@@ -11,102 +11,78 @@ export default function NewPost() {
   const [userData] = useUserData();
   const [profilePic, setProfilePic] = useState("");
   const { refreshAxios, setRefreshAxios } = useContext(refreshAxiosContext);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userData.token}`,
+    },
+  };
 
   useEffect(() => {
-    axios
-      .get("https://projeto17-linkr-backend.herokuapp.com/pictureUrl", {
-        headers: { Authorization: `Bearer ${userData.token}` },
-      })
-      .then((res) => {
-        const { pictureUrl } = res.data;
+    const request =axios.get("https://projeto17-linkr-backend.herokuapp.com/pictureUrl", config) 
+    request.then((response) => {
+        const { pictureUrl } = response.data;
         setProfilePic(pictureUrl);
-      })
-      .catch((e) => console.log(e));
+    }).catch((err) => 
+        console.error(err));
   }, [userData.token]);
 
-  function publishPost(e) {
+  function createPost(e) {
     setLoading(true);
     e.preventDefault();
-    axios
-      .post(
-        "https://projeto17-linkr-backend.herokuapp.com/post",
-        { url, text },
-        {
-          headers: { Authorization: `Bearer ${userData.token}` },
-        }
-      )
-      .then(() => {
+    const data = {url: url, text: text}
+    const promise = axios.post("https://projeto17-linkr-backend.herokuapp.com/post", data, config)
+    promise.then(() => {
         alert("Post publicado com sucesso");
         setLoading(false);
         setRefreshAxios(!refreshAxios);
         setText("");
         setUrl("");
       })
-      .catch((e) => {
+      .catch((err) => {
         setLoading(false);
-        console.log(e);
+        console.error(err);
         alert("Houve um erro ao publicar seu link");
       });
   }
 
   return (
-    <NewPostContainer>
+    <Container>
       <img src={profilePic}></img>
-      <PublicationForm>
-        <h4>What are you going to share today?</h4>
-        {loading ? (
-          <form onSubmit={publishPost}>
+      <Form onSubmit={createPost}>
+        <h1>What are you going to share today?</h1>
             <input
-              class="disabled"
-              disabled
+              disabled = {loading}
               type="url"
               placeholder="http://..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
+              required
             />
             <textarea
-              class="disabled"
-              disabled
+              disabled = {loading}
               type="text"
               placeholder="Awesome article about #javascript"
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
-            <button class="disabled" disabled>
-              Publishing...
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={publishPost}>
-            <input
-              type="url"
-              placeholder="http://..."
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-            />
-            <textarea
-              type="text"
-              placeholder="Awesome article about #javascript"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            />
-            <button type="submit">Publish</button>
-          </form>
-        )}
-      </PublicationForm>
-    </NewPostContainer>
+            <div className="formButton">
+            <button disabled={loading}>
+             {loading ?  'Publishing...' : 'Publish'}
+            </button></div>
+      </Form>
+    </Container>
   );
 }
 
-const NewPostContainer = styled.div`
+const Container = styled.div`
   width: 611px;
   height: 209px;
   background: #ffffff;
   border-radius: 16px;
   display: flex;
-  position: relative;
   margin-bottom: 21px;
-  padding-bottom: 52px;
+  box-sizing: border-box;
+  padding-bottom: 16px;
 
   img {
     height: 50px;
@@ -120,7 +96,7 @@ const NewPostContainer = styled.div`
     width: 100vw;
     height: 375px;
     border-radius: 0px;
-    padding: 0px 15px 40px 15px;
+    padding: 0px 15px 12px 15px;
 
     img {
       display: none;
@@ -128,77 +104,78 @@ const NewPostContainer = styled.div`
   }
 `;
 
-const PublicationForm = styled.div`
-  margin-top: 21px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  h4 {
-    font-size: 20px;
-    font-family: "Lato", sans-serif;
-    font-weight: 300;
-    color: #707070;
-    margin-bottom: 10px;
-  }
-  form {
+const Form = styled.form`
+    padding-top: 21px;
     display: flex;
     flex-direction: column;
-    .disabled {
-      opacity: 0.7;
-    }
-    input,
-    textarea {
-      width: 477px;
-      height: 30px;
-      margin: 2.5px 0;
-      background: #efefef;
-      border-radius: 5px;
-      border: none;
-      padding: 0 13px;
-      font-family: "Lato", sans-serif;
+    box-sizing: border-box;
+
+    h1{
+      width: 445px;
+      height: 40px;
+      font-size: 20px;
       font-weight: 300;
-      font-size: 15px;
-      ::placeholder {
-        position: absolute;
-        top: 5px;
-        left: 13px;
-      }
+      color: #707070;
+      font-family: "Lato"; 
+      font-style: normal;
     }
 
-    textarea {
-      resize: none;
-      height: 58px;
-      padding: 5px 13px;
-    }
-
-    button {
-      background: #1877f2;
+    input, textarea{
+      width: 503px;
+      height: 30px;
+      background: #EFEFEF;
       border-radius: 5px;
-      border: none;
+      border: 0;
+      padding-left: 13px;
+      box-sizing: border-box;
+    }
+
+    textarea::placeholder, input::placeholder{
+      color: #949494;
+    }
+
+    textarea{
+      margin-top: 5px;
+      height:66px;
+      resize: none;
+    }
+
+    .formButton{
+      width: 503px;
+      height: 31px;
+      display:flex;
+      justify-content: flex-end;
+      margin-top: 5px;
+    }
+
+    button{
       width: 112px;
       height: 31px;
-      color: #ffffff;
-      position: absolute;
-      bottom: 16px;
-      right: 22px;
-      cursor: pointer;
+      background: #1877F2;
+      border-radius: 5px;
+      border:0;
+      color: #FFFFFF;
     }
 
     @media (max-width: 935px) {
-      display: flex;
-      /* justify-content: center; */
-
-      input,
-      textarea {
-        width: 100%;
+      display:flex;
+      align-items:center;
+      h1{
+        width: 90vw;
+        text-align:center;
+      }
+      input, textarea{
+        width: 90vw;
       }
 
-      button {
-        height: 25px;
-        bottom: 9px;
-        right: 15px;
+      .formButton{
+        width: 90vw;
+      }
+      button{
+        height: 22px;
+      }
+      img {
+        display: none;
       }
     }
-  }
 `;
