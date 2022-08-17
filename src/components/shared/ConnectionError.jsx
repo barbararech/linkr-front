@@ -1,6 +1,7 @@
+import styled from "styled-components";
 export default function ConnectionError({ pageName }) {
   return (
-    <h1
+    <H1
       style={{
         color: "#FFFFFF",
         fontFamily: "Oswald",
@@ -10,6 +11,17 @@ export default function ConnectionError({ pageName }) {
       }}
     >
       An error occured while trying to fetch the posts, please refresh the page
-    </h1>
+    </H1>
   );
 }
+
+const H1 = styled.h1`
+  font-size: 30px;
+  text-align: center;
+  word-wrap: wrap;
+  width: 95%;
+
+  @media (max-width: 935px) {
+    width: 100%;
+  }
+`;
