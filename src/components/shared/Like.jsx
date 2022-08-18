@@ -24,9 +24,10 @@ export default function Like({id}) {
     } else {
       config.headers.action = "dislike"
     }
+    setUserLiked(!userLiked);
    const promise = axios.post(`https://projeto17-linkr-backend.herokuapp.com/like/${id}`, {}, config)  
    promise.then((response) => {
-        setUserLiked(!userLiked);
+        
     }).catch((err) => {
       console.error(err)
     });
@@ -71,7 +72,7 @@ export default function Like({id}) {
         outras ${likesCount.length * 1 - 2} pessoas`
       );
     }
-  }, [userLiked]);
+  }, [likesCount]);
 
   return (
     <>
