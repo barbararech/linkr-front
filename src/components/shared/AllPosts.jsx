@@ -11,6 +11,7 @@ import Like from "../shared/Like.jsx";
 import { Link } from "react-router-dom";
 import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
+import Comments from "./Comments.jsx";
 
 export default function AllPosts({
   id,
@@ -239,6 +240,7 @@ export default function AllPosts({
           </ContainerModal>
         </Modal>
       </Posts>
+      <Comments id={id}/>
     </IconContext.Provider>
   );
 }
