@@ -9,36 +9,36 @@ export default function Input() {
   const [APIData, setAPIData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
+  const body = {
+    username: searchInput,
+  };
+
   const config = {
-      username: searchInput
+    headers: {
+      Authorization: `Bearer ${userData.token}`,
+    },
   };
 
   useEffect(() => {
-
     if (searchInput.length > 2) {
-
-      axios({
-        method: "POST",
-        url: "https://projeto17-linkr-backend.herokuapp.com/search",
-        data: config
-      })
-        .then(response => {
+      axios
+        .post(
+          "https://projeto17-linkr-backend.herokuapp.com/search",
+          body,
+          config
+        )
+        .then((response) => {
           setAPIData([...response.data]);
           console.log(APIData);
-          console.log('Update API');
-          console.log(searchInput)
+          console.log("Update API");
+          console.log(searchInput);
         })
-        .catch(error => {
-        });
-  
-
+        .catch((error) => {});
     }
-
   }, [searchInput]);
 
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
-
   };
 
   function Users({ username, pictureUrl }) {
@@ -60,7 +60,12 @@ export default function Input() {
   return (
     <Container>
       <div className="split">
-        <DebounceInput placeholder="Search for people" debounceTimeout={300} minLength={3} onChange={(e) => searchItems(e.target.value)} />
+        <DebounceInput
+          placeholder="Search for people"
+          debounceTimeout={300}
+          minLength={3}
+          onChange={(e) => searchItems(e.target.value)}
+        />
 
         {searchInput.length > 2
           ? APIData.map((user) => {
