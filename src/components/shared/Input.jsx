@@ -12,6 +12,7 @@ export default function Input() {
   const [APIData, setAPIData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [userData] = useUserData();
+  const [sessionUserId, setSessionUserId] = useState("");
   const body = {
     username: searchInput,
   };
@@ -37,13 +38,30 @@ export default function Input() {
     }
   }, [searchInput]);
 
+  useEffect(() => {
+    const requestId = axios.get(
+      "https://projeto17-linkr-backend.herokuapp.com/userId",
+      config
+    );
+    requestId
+      .then((response) => {
+        setSessionUserId(response.data.id);
+      })
+      .catch((err) => {
+        setConnectError(err);
+        console.error(err);
+      });
+  }, []);
+
   console.log(APIData);
 
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
   };
 
-  function Users({ username, pictureUrl }) {
+  function Users({ username, pictureUrl, followerId }) {
+    console.log(sessionUserId);
+    console.log(followerId);
     return (
       <UserList>
         <div className="user">
@@ -53,10 +71,16 @@ export default function Input() {
           <div className="list">
             <span className="username">{username}</span>
           </div>
-          <IconContext.Provider value={{ color: "#c5c5c5", size: "40px" }}>
-            <BsDot />
-          </IconContext.Provider>
-          <span className="following"> following</span>
+          {sessionUserId === followerId ? (
+            <>
+              <IconContext.Provider value={{ color: "#c5c5c5", size: "40px" }}>
+                <BsDot />
+              </IconContext.Provider>
+              <span className="following"> following</span>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </UserList>
     );
@@ -80,6 +104,7 @@ export default function Input() {
                     id={user.id}
                     username={user.username}
                     pictureUrl={user.pictureUrl}
+                    followerId={user.userId}
                   />
                 </Link>
               );
