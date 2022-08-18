@@ -10,6 +10,7 @@ import { AiOutlineDown } from "react-icons/ai";
 import { AiOutlineUp } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import API from "./constants.jsx";
 
 export default function Header() {
   const [, setUserData] = useUserData();
@@ -20,7 +21,7 @@ export default function Header() {
 
   useEffect(() => {
     axios
-      .get("https://projeto17-linkr-backend.herokuapp.com/pictureUrl", {
+      .get(`${API}/pictureUrl`, {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
       .then((res) => {

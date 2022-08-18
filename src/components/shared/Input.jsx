@@ -4,9 +4,11 @@ import axios from "axios";
 import { DebounceInput } from "react-debounce-input";
 import debounce from "lodash.debounce";
 import { Link } from "react-router-dom";
+import API from "./constants";
 import { useUserData } from "../../contexts/userContext";
 import { BsDot } from "react-icons/bs";
 import { IconContext } from "react-icons";
+
 
 export default function Input() {
   const [APIData, setAPIData] = useState([]);
@@ -27,7 +29,7 @@ export default function Input() {
     if (searchInput.length > 2) {
       axios
         .post(
-          "https://projeto17-linkr-backend.herokuapp.com/search",
+          `${API}/search`,
           body,
           config
         )

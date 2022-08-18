@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
+import API from "./constants.jsx";
 
 export default function Trending() {
   const [trending, setTrending] = useState([]);
@@ -13,7 +14,7 @@ export default function Trending() {
 
   useEffect(() => {
     axios
-      .get("https://projeto17-linkr-backend.herokuapp.com/trending", {
+      .get(`${API}/trending`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {

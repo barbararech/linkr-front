@@ -5,6 +5,7 @@ import { useUserData } from "../../contexts/userContext.jsx";
 import axios from "axios";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { IconContext } from "react-icons";
+import API from "./constants.jsx";
 
 export default function Like({id}) {
   const [userData] = useUserData();
@@ -25,7 +26,7 @@ export default function Like({id}) {
       config.headers.action = "dislike"
     }
     setUserLiked(!userLiked);
-   const promise = axios.post(`https://projeto17-linkr-backend.herokuapp.com/like/${id}`, {}, config)  
+   const promise = axios.post(`${API}/like/${id}`, {}, config)  
    promise.then((response) => {
         
     }).catch((err) => {
@@ -34,7 +35,7 @@ export default function Like({id}) {
   }
 
   useEffect(() => {
-    const request = axios.get(`https://projeto17-linkr-backend.herokuapp.com/likes/${id}`, config)
+    const request = axios.get(`${API}/likes/${id}`, config)
     request.then((response) => {
           setLikesCount(response.data.likes)
           setUserLiked(response.data.userLiked);
