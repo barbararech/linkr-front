@@ -5,11 +5,13 @@ import { DebounceInput } from "react-debounce-input";
 import debounce from "lodash.debounce";
 import { Link } from "react-router-dom";
 import API from "./constants";
+import { useUserData } from "../../contexts/userContext";
+
 
 export default function Input() {
   const [APIData, setAPIData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-
+  const [userData] = useUserData();
   const body = {
     username: searchInput,
   };
