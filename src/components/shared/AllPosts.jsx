@@ -124,9 +124,9 @@ export default function AllPosts({
     }
     if (sessionUserId === userId) {
       return (
-        <div className="icons">
+        <div className="icons">          
           <TiPencil onClick={() => showEdit(id)}></TiPencil>
-          <RiDeleteBin7Fill onClick={() => showModal(id)}></RiDeleteBin7Fill>
+          <RiDeleteBin7Fill onClick={() => showModal(id)}></RiDeleteBin7Fill>         
         </div>
       );
     }
@@ -236,7 +236,9 @@ export default function AllPosts({
                 </ReactTagify>
               )}
             </span>
+            <IconContext.Provider value={{color:"#FFFFFF", size: "20px"}}>
             <EditIcons />
+            </IconContext.Provider>
           </div>
           <div
             className="urlInfo"
@@ -408,7 +410,7 @@ const Posts = styled.div`
   }
 
   .icons {
-    width: 40px;
+    width: 50px;
     height: 59px;
     display: flex;
     justify-content: space-between;
