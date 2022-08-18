@@ -4,6 +4,7 @@ import HomePage from "../components/shared/HomePage.jsx";
 import axios from "axios";
 import { useUserData } from "../contexts/userContext.jsx";
 import refreshAxiosContext from "../contexts/refreshAxiosContext.jsx";
+import API from "./shared/constants.jsx";
 
 export default function UserPage() {
   const { id } = useParams();
@@ -20,7 +21,7 @@ export default function UserPage() {
 
   useEffect(() => {
     const request = axios.get(
-      `https://projeto17-linkr-backend.herokuapp.com/userinfo/${id}`,
+      `${API}/userinfo/${id}`,
       config
     );
     request

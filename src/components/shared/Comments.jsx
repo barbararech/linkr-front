@@ -5,6 +5,7 @@ import { useUserData } from "../../contexts/userContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { FaRegPaperPlane } from "react-icons/fa";
+import API from "./constants.jsx";
 
 export default function Comments ({id}){
 const [userData] = useUserData();
@@ -16,7 +17,7 @@ const { token } = userData;
 
 useEffect(() => {
   const requestId = axios.get(
-    "https://projeto17-linkr-backend.herokuapp.com/userId",
+    `${API}/userId`,
     config
   );
   requestId
@@ -33,7 +34,7 @@ useEffect(() => {
 
     useEffect(() => {
         axios
-          .get("https://projeto17-linkr-backend.herokuapp.com/pictureUrl", {
+          .get(`${API}/pictureUrl`, {
             headers: { Authorization: `Bearer ${userData.token}` },
           })
           .then((res) => {
@@ -52,7 +53,7 @@ useEffect(() => {
 function sendComment (e){
 
     const data = {comment: text, userId: sessionUserId} 
-    const promise = axios.post(`https://projeto17-linkr-backend.herokuapp.com/comment/${id}`, data, config )
+    const promise = axios.post(`${API}/comment/${id}`, data, config )
     promise.then(() => {
         alert("Comentário publicado com sucesso");
         setText("");
@@ -68,7 +69,9 @@ function sendComment (e){
         <div className="write">
           <img src={profilePic} />
           <input placeholder="write a comment..." value={text} onChange={(e) => setText(e.target.value)}/>
+          <IconContext.Provider value={{color:"#FFFFFF", size:"20px"}}>
           <FaRegPaperPlane onClick={sendComment} ></FaRegPaperPlane>
+          </IconContext.Provider>
         </div>
         </Container>
     )

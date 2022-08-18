@@ -4,6 +4,7 @@ import axios from "axios";
 import { DebounceInput } from "react-debounce-input";
 import debounce from "lodash.debounce";
 import { Link } from "react-router-dom";
+import API from "./constants";
 
 export default function Input() {
   const [APIData, setAPIData] = useState([]);
@@ -19,7 +20,7 @@ export default function Input() {
 
       axios({
         method: "POST",
-        url: "https://projeto17-linkr-backend.herokuapp.com/search",
+        url: `${API}/search`,
         data: config
       })
         .then(response => {

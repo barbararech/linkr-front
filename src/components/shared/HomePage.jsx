@@ -15,6 +15,7 @@ import NoPostsYet from "./NoPostsYet.jsx";
 import WithoutFriends from "./WithoutFriends.jsx";
 import LoadingAnimation from "./LoadingAnimation.jsx";
 import FollowButton from "./FollowButton.jsx";
+import API from "./constants.jsx";
 
 export default function HomePage({ axiosRequest, pageName, userImg }) {
   const [posts, setPosts] = useState([]);
@@ -33,7 +34,7 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
 
   useEffect(() => {
     const request = axios.get(
-      `https://projeto17-linkr-backend.herokuapp.com/${axiosRequest}`,
+      `${API}/${axiosRequest}`,
       config
     );
     setLoading(true);
@@ -51,7 +52,7 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
 
   useEffect(() => {
     const requestId = axios.get(
-      "https://projeto17-linkr-backend.herokuapp.com/userId",
+      `${API}/userId`,
       config
     );
     requestId
@@ -67,7 +68,7 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
 
   useEffect(() => {
     axios
-      .get(`https://projeto17-linkr-backend.herokuapp.com/following`, config)
+      .get(`${API}/following`, config)
       .then((response) => {
         setFollowing(response.data);
       })
@@ -112,6 +113,10 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
         urlDescription,
         urlImage,
         userId,
+        isRepost,
+        userRepostId,
+        reposterName,
+        countReposts
       }) => {
         return (
           <AllPosts
@@ -127,6 +132,10 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
             sessionUserId={sessionUserId}
             refreshAxios={refreshAxios}
             setRefreshAxios={setRefreshAxios}
+            isRepost={isRepost}
+            userRepostId={userRepostId}
+            reposterName={reposterName}
+            countReposts={countReposts}
           />
         );
       }

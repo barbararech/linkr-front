@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
+import API from "./constants.jsx";
 
 export default function NewPost() {
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ export default function NewPost() {
 
   useEffect(() => {
     const request = axios.get(
-      "https://projeto17-linkr-backend.herokuapp.com/pictureUrl",
+      `${API}/pictureUrl`,
       config
     );
     request
@@ -35,7 +36,7 @@ export default function NewPost() {
     e.preventDefault();
     const data = { url: url, text: text };
     const promise = axios.post(
-      "https://projeto17-linkr-backend.herokuapp.com/post",
+      `${API}/post`,
       data,
       config
     );

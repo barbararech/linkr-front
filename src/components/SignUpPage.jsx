@@ -4,6 +4,7 @@ import { basicSchema } from "../schemas";
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import API from "./shared/constants.jsx";
 
 
 function SignUpPage () {
@@ -24,7 +25,7 @@ function SignUpPage () {
 
     axios({
       method: "POST",
-      url: "https://projeto17-linkr-backend.herokuapp.com/signup",
+      url: `${API}/signup`,
       data: values
     })
       .then(response => {

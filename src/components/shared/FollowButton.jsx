@@ -4,6 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
+import API from "./constants.jsx";
 
 export default function FollowButton() {
   const { id } = useParams();
@@ -23,7 +24,7 @@ export default function FollowButton() {
 
   useEffect(() => {
     const requestId = axios.get(
-      "https://projeto17-linkr-backend.herokuapp.com/userId",
+      `${API}/userId`,
       config
     );
     requestId
@@ -40,7 +41,7 @@ export default function FollowButton() {
   useEffect(() => {
     axios
       .get(
-        `https://projeto17-linkr-backend.herokuapp.com/following/${id}`,
+        `${API}/following/${id}`,
         config
       )
       .then((response) => {
@@ -57,7 +58,7 @@ export default function FollowButton() {
     setIsLoading(true);
     axios
       .post(
-        `https://projeto17-linkr-backend.herokuapp.com/follow/${id}`,
+        `${API}/follow/${id}`,
         {},
         config
       )
@@ -76,7 +77,7 @@ export default function FollowButton() {
     setIsLoading(true);
     axios
       .delete(
-        `https://projeto17-linkr-backend.herokuapp.com/unfollow/${id}`,
+        `${API}/unfollow/${id}`,
         config
       )
       .then((response) => {

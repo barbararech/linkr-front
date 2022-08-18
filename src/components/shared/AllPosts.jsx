@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
 import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import Comments from "./Comments.jsx";
+import API from "./constants.jsx";
+import { BiRepost } from "react-icons/bi";
 
 export default function AllPosts({
   id,
@@ -26,10 +28,15 @@ export default function AllPosts({
   sessionUserId,
   refreshAxios,
   setRefreshAxios,
+  isRepost,
+  userRepostId,
+  reposterName,
+  countReposts
 }) {
   const [edit, setEdit] = useState(false);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [modalOpen, setModal] = useState(false);
+  const [modalRepostOpen, setModalRepost] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [userData] = useUserData();
   const elem = useRef("");
@@ -63,12 +70,16 @@ export default function AllPosts({
     setModal(!modalOpen);
   }
 
+  function showModalRepost(){
+    setModalRepost(!modalRepostOpen)
+  }
+
   function sendText(event) {
     event.preventDefault();
     const dados = { text: elem.current.value };
     setLoadingEdit(true);
     const request = axios.put(
-      `https://projeto17-linkr-backend.herokuapp.com/post/${id.id}`,
+      `${API}/post/${id}`,
       dados,
       config
     );
@@ -90,7 +101,7 @@ export default function AllPosts({
     event.preventDefault();
     setLoadingDelete(true);
     const request = axios.delete(
-      `https://projeto17-linkr-backend.herokuapp.com/post/${id.id}`,
+      `${API}/post/${id}`,
       config
     );
     request
@@ -140,15 +151,56 @@ export default function AllPosts({
     }
   }
 
+  function ReposterName(){
+    if(userRepostId === sessionUserId){
+      return <Repost>
+        <IconContext.Provider value={{color:"#FFFFFF", size: "20px"}}>
+                  <BiRepost/>
+                  </IconContext.Provider>
+                  <h1>Re-posted by you</h1>
+            </Repost>
+    }else{
+      return <Repost>
+                  <IconContext.Provider value={{color:"#FFFFFF", size: "20px"}}>
+                      <BiRepost/>
+                  </IconContext.Provider>
+                  <h1>Re-posted by {reposterName}</h1>
+              </Repost>
+    }
+  }
+
+  function createRepost(event){
+      event.preventDefault()
+      setLoadingDelete(true)
+      const request = axios.post(`${API}/repost/${id}`, {}, config)
+      request.then((response) =>{
+        setLoadingDelete(false);
+        setModalRepost(false);
+        setRefreshAxios(!refreshAxios);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false)
+        alert("Houve um erro ao repostar")
+      })
+  }
   return (
-    <IconContext.Provider value={{ color: "#FFFFFF", fontSize: "16px" }}>
+    <>
+     <Container>
+     {isRepost ? <ReposterName/> : <></>}
       <Posts>
-        <div>
+        <div className="interactions">
           <Link to={`/user/${userId}`}>
             {" "}
             <img src={pictureUrl} />
           </Link>
           <Like id={id} />
+          <IconContext.Provider value={{color:"#FFFFFF", size: "30px"}}>
+          <div className="reposts" >
+          <BiRepost onClick={() => showModalRepost(id)}></BiRepost>
+          <p>{countReposts} re-posts</p>
+          </div>
+          </IconContext.Provider>
         </div>
         <div className="postInfo">
           <div className="postHeader">
@@ -239,9 +291,36 @@ export default function AllPosts({
             )}
           </ContainerModal>
         </Modal>
+
+        <Modal
+            isOpen={modalRepostOpen}
+            onRequestClose={showModalRepost}
+            contentLabel="Delete Modal"
+            style={modalStyle}
+        >
+          <ContainerModal>
+            {loadingDelete ? (
+              loadingAnimation
+            ) : (
+              <>
+                <h4>Do you want to re-post this link?</h4>
+                <div className="modalButtons">
+                  <button className="back" onClick={showModalRepost}>
+                    No, cancel
+                  </button>
+                  <button type="submit" className="delete" onClick={createRepost}>
+                    {" "}
+                    Yes, share!
+                  </button>
+                </div>
+              </>
+            )}
+          </ContainerModal>
+        </Modal>
       </Posts>
+      </Container>
       <Comments id={id}/>
-    </IconContext.Provider>
+    </>
   );
 }
 
@@ -256,6 +335,7 @@ const Posts = styled.div`
   padding-bottom: 20px;
   box-sizing: border-box;
   display: flex;
+  position: relative;
 
   img {
     margin-left: 18px;
@@ -332,6 +412,22 @@ const Posts = styled.div`
     height: 59px;
     display: flex;
     justify-content: space-between;
+  }
+
+  .reposts{
+    width: 50px; 
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 18px;
+    flex-direction: column;
+  }
+
+  .reposts>p{
+    margin-top: 5px;
+    font-size: 11px;
+    color: #ffffff;
   }
 
   @media (max-width: 935px) {
@@ -485,3 +581,30 @@ const modalStyle = {
     border: "0",
   },
 };
+
+const Container = styled.div`
+  width: 611px;
+  height: 309px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px 6px 0 0;
+  background-color: #1E1E1E;
+
+  .interactions{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`
+const Repost = styled.div`
+    width: 611px;
+    min-height: 33px;
+    display: flex;
+    align-items: center;
+    padding-left: 13px;
+
+    h1{
+      color:#FFFFFF;
+      font-size:11px;
+    }
+`

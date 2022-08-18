@@ -8,6 +8,7 @@ import {
   useUserData,
   saveUserDataInLocalStorage,
 } from "../contexts/userContext.jsx";
+import API from "./shared/constants";
 
 function SignInPage() {
   const [enable, setEnable] = useState(true);
@@ -19,7 +20,7 @@ function SignInPage() {
 
     axios({
       method: "POST",
-      url: "https://projeto17-linkr-backend.herokuapp.com/signin",
+      url: `${API}/signin`,
       data: values,
     })
       .then((response) => {

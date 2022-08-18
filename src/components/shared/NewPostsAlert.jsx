@@ -5,6 +5,7 @@ import axios from "axios";
 import { HiRefresh } from "react-icons/hi";
 import refreshAxiosContext from "../../contexts/refreshAxiosContext.jsx";
 import { useUserData } from "../../contexts/userContext.jsx";
+import API from "./constants.jsx";
 
 export default function NewPostsAlert({ posts, axiosRequest, pageName }) {
   const [newPosts, setNewPosts] = useState([]);
@@ -24,7 +25,7 @@ export default function NewPostsAlert({ posts, axiosRequest, pageName }) {
 
   function getNewPosts() {
     const request = axios.get(
-      `https://projeto17-linkr-backend.herokuapp.com/${axiosRequest}`,
+      `${API}/${axiosRequest}`,
       config
     );
     request
