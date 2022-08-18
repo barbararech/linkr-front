@@ -86,7 +86,7 @@ const Container = styled.div`
   width:100%;
 
   .write {
-    margin-top: 10px;
+    margin-top: 30px;
     display: flex;
     justify-content: space-around;
     align-items:center;
@@ -103,7 +103,7 @@ const Container = styled.div`
     font-weight: 400;
     font-size: 14px;
     padding-left: 10px;
-    width:100%;
+    width:80%;
   }
 
   img{

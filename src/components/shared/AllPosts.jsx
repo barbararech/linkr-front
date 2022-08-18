@@ -434,7 +434,7 @@ const Posts = styled.div`
 
   @media (max-width: 935px) {
     width: 100vw;
-    height: 30%;
+    height: 30vh;
     background-color: #171717;
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
     border-radius: 0px;
@@ -473,8 +473,6 @@ const Posts = styled.div`
       margin-bottom: 4px;
     }
     .urlInfoImg {
-      width: 95px;
-      height: 30%;
       border-radius: 0px 12px 12px 0px;
     }
   }
@@ -585,8 +583,7 @@ const modalStyle = {
 };
 
 const Container = styled.div`
-  /* width: 611px; */
-  width:100%;
+  width: 611px;
   height: 309px;
   display: flex;
   flex-direction: column;
@@ -598,6 +595,10 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
   }
+
+  @media (max-width: 935px) {
+    width: 100%;
+    }
 `
 const Repost = styled.div`
     width: 100%;
@@ -610,4 +611,6 @@ const Repost = styled.div`
       color:#FFFFFF;
       font-size:11px;
     }
+
+  
 `
