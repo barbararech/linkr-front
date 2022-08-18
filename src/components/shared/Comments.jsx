@@ -83,6 +83,7 @@ const Container = styled.div`
   margin-top: -30px;
   margin-bottom: 30px;
   border-radius: 0 0 6px 6px;
+  width:100%;
 
   .write {
     margin-top: 10px;
@@ -97,12 +98,12 @@ const Container = styled.div`
     background-color: #252525;
     border: none;
     border-radius: 8px;
-    width: 410px;
     height: 39px;
     font-style: italic;
     font-weight: 400;
     font-size: 14px;
     padding-left: 10px;
+    width:100%;
   }
 
   img{
