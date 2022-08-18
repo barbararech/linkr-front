@@ -5,6 +5,8 @@ import { DebounceInput } from "react-debounce-input";
 import debounce from "lodash.debounce";
 import { Link } from "react-router-dom";
 import { useUserData } from "../../contexts/userContext";
+import { BsDot } from "react-icons/bs";
+import { IconContext } from "react-icons";
 
 export default function Input() {
   const [APIData, setAPIData] = useState([]);
@@ -29,14 +31,13 @@ export default function Input() {
           config
         )
         .then((response) => {
-          setAPIData([...response.data]);
-          console.log(APIData);
-          console.log("Update API");
-          console.log(searchInput);
+          setAPIData(response.data);
         })
         .catch((error) => {});
     }
   }, [searchInput]);
+
+  console.log(APIData);
 
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
@@ -49,10 +50,13 @@ export default function Input() {
           <div>
             <img src={pictureUrl} alt={"img"} />
           </div>
-
           <div className="list">
             <span className="username">{username}</span>
           </div>
+          <IconContext.Provider value={{ color: "#c5c5c5", size: "40px" }}>
+            <BsDot />
+          </IconContext.Provider>
+          <span className="following"> following</span>
         </div>
       </UserList>
     );
@@ -127,7 +131,7 @@ const UserList = styled.div`
   font-weight: 400;
   font-size: 16px;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 
   img {
     width: 39px;
@@ -139,6 +143,8 @@ const UserList = styled.div`
   .user {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    height: 100%;
   }
 
   .username {
@@ -148,12 +154,28 @@ const UserList = styled.div`
     font-size: 19px;
     line-height: 23px;
     color: #515151;
-    margin-top: 7px;
+    height: 100%;
+    margin-bottom: 4px;
+    margin-right: -9px;
   }
 
   .list {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     margin-left: 14px;
+    height: 100%;
+  }
+
+  .following {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    color: #c5c5c5;
+    height: 100%;
+    margin-bottom: 4px;
+    margin-left: -9px;
   }
 `;
