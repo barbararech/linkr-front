@@ -583,7 +583,8 @@ const modalStyle = {
 };
 
 const Container = styled.div`
-  width: 611px;
+  /* width: 611px; */
+  width:100%;
   height: 309px;
   display: flex;
   flex-direction: column;
@@ -597,7 +598,7 @@ const Container = styled.div`
   }
 `
 const Repost = styled.div`
-    width: 611px;
+    width: 100%;
     min-height: 33px;
     display: flex;
     align-items: center;
