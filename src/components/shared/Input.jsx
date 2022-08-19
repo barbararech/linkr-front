@@ -55,7 +55,6 @@ export default function Input() {
       });
   }, []);
 
-  console.log(APIData);
 
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);

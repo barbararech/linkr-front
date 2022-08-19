@@ -97,7 +97,6 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
         setPosts((prevInsideState) => [...prevInsideState, ...promise.data]);
       }
     }
-    console.log(currentPage);
     if (currentPage > 0) {
       getPostsByPage();
     }
@@ -120,8 +119,6 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
   }, [loading]);
 
 
-  console.log(following);
-  console.log(posts);
   function RenderPosts() {
     if (connectError !== "") {
       return <ConnectionError />;
@@ -199,6 +196,7 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
           posts={posts}
           axiosRequest={axiosRequest}
           pageName={pageName}
+          currentPage={currentPage}
         />
         {RenderPosts()}
         {!end ?
@@ -258,6 +256,8 @@ const ContainerPosts = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 40px;
+    padding-bottom: 338px;
   }
   @media (max-width: 935px) {
     margin-right: 0px;
