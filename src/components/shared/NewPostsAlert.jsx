@@ -25,7 +25,7 @@ export default function NewPostsAlert({ posts, axiosRequest, pageName }) {
 
   function getNewPosts() {
     const request = axios.get(
-      `${API}/${axiosRequest}`,
+      `${API}/${axiosRequest}?page=0`,
       config
     );
     request
@@ -37,6 +37,8 @@ export default function NewPostsAlert({ posts, axiosRequest, pageName }) {
       });
   }
 
+  console.log(newPosts)
+  console.log(posts)
   function renderAlert() {
     const diffPosts = newPosts.length - posts.length;
 
