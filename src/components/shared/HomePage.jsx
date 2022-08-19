@@ -227,8 +227,8 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
         <ContainerPosts>
           {loading ? <LoadingAnimation /> : <>{RenderPage()}</>}
         </ContainerPosts>
-        <Trending />
       </Container>
+      <Trending />
     </>
   );
 }
