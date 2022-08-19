@@ -98,6 +98,10 @@ const Container = styled.div`
     height: 72px;
     display: flex;
     justify-content: space-between;
+    position: fixed;
+    width: 100vw;
+    top:0;
+    z-index: 1;
   }
 
   .logo {

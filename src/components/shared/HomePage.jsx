@@ -234,7 +234,7 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
 }
 
 const Container = styled.div`
-  margin-top: 53px;
+  margin-top: 125px;
   display: flex;
   justify-content: center;
   box-sizing: border-box;
