@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Comments from "./Comments.jsx";
 import API from "./constants.jsx";
 import { BiRepost } from "react-icons/bi";
+import { AiOutlineComment } from "react-icons/ai";
 
 export default function AllPosts({
   id,
@@ -45,6 +46,11 @@ export default function AllPosts({
     headers: {
       Authorization: `Bearer ${userData.token}`, //Padrão da API (Bearer Authentication)
     },
+  };
+
+  const [isActive, setActive] = useState(false);
+  const toggleClass = () => {
+    setActive(!isActive);
   };
 
   let loadingAnimation = (
@@ -200,6 +206,10 @@ export default function AllPosts({
           <BiRepost onClick={() => showModalRepost(id)}></BiRepost>
           <p>{countReposts} re-posts</p>
           </div>
+          <div className="reposts">
+          <AiOutlineComment onClick={toggleClass} ></AiOutlineComment>
+          <p>comments</p>
+          </div>
           </IconContext.Provider>
         </div>
         <div className="postInfo">
@@ -321,10 +331,17 @@ export default function AllPosts({
         </Modal>
       </Posts>
       </Container>
-      <Comments id={id}/>
+      {" "}
+        {isActive ? <Comments id={id}/> : <Space></Space>}
+      {" "}
+      {/* <Comments id={id}/> */}
     </>
   );
 }
+
+const Space = styled.div`
+  min-height:25px;
+`
 
 const Posts = styled.div`
   width: 611px;
@@ -332,7 +349,7 @@ const Posts = styled.div`
   background-color: #171717;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
-  margin-bottom: 16px;
+  //margin-bottom: 16px;
   padding-top: 18px;
   padding-bottom: 20px;
   box-sizing: border-box;
@@ -587,7 +604,7 @@ const Container = styled.div`
   height: 309px;
   display: flex;
   flex-direction: column;
-  border-radius: 6px 6px 0 0;
+  border-radius: 6px;
   background-color: #1E1E1E;
 
   .interactions{
