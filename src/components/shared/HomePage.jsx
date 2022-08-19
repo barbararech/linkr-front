@@ -109,7 +109,7 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
         console.log("ACHEI VOCE");
         setTimeout(() => {
           setCurrentPage((prev) => prev + 1);
-        }, 5000);
+        }, 2000);
       }
     });
     if (ref.current) {
