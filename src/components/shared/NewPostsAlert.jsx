@@ -8,7 +8,7 @@ import { useUserData } from "../../contexts/userContext.jsx";
 import API from "./constants.jsx";
 
 export default function NewPostsAlert({ posts, axiosRequest, pageName }) {
-  const [newPosts, setNewPosts] = useState([]);
+  const [newPosts, setNewPosts] = useState(0);
   const { refreshAxios, setRefreshAxios } = useContext(refreshAxiosContext);
   const [userData] = useUserData();
   const timeUpdatePosts = 15000;
@@ -25,12 +25,15 @@ export default function NewPostsAlert({ posts, axiosRequest, pageName }) {
 
   function getNewPosts() {
     const request = axios.get(
-      `${API}/${axiosRequest}`,
+      `${API}/${axiosRequest}?page=0`,
       config
     );
     request
       .then((response) => {
-        setNewPosts(response.data);
+        if(response.data[0].createdAt > posts[0].createdAt){
+          const aux = response.data.filter((el)=> el.createdAt > posts[0].createdAt)
+          setNewPosts(aux.length)
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -38,13 +41,24 @@ export default function NewPostsAlert({ posts, axiosRequest, pageName }) {
   }
 
   function renderAlert() {
-    const diffPosts = newPosts.length - posts.length;
-
-    if (diffPosts >= 1) {
+    if (newPosts >= 1) {
       return (
         <Container>
           <ButtonAlert onClick={()=>setRefreshAxios(!refreshAxios)}>
-            {diffPosts} new posts, load more!
+            {newPosts} new posts, load more!
+            <i>
+              <HiRefresh />
+            </i>
+          </ButtonAlert>
+        </Container>
+      );
+    }
+
+    if (newPosts === 10){
+      return (
+        <Container>
+          <ButtonAlert onClick={()=>setRefreshAxios(!refreshAxios)}>
+            {diffPosts}+ new posts, load more!
             <i>
               <HiRefresh />
             </i>

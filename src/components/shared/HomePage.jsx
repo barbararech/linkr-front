@@ -3,7 +3,7 @@ import NewPost from "./NewPost.jsx";
 import Trending from "./Trending.jsx";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import axios from "axios";
 import { useUserData } from "../../contexts/userContext.jsx";
 import AllPosts from "./AllPosts.jsx";
@@ -16,6 +16,7 @@ import WithoutFriends from "./WithoutFriends.jsx";
 import LoadingAnimation from "./LoadingAnimation.jsx";
 import FollowButton from "./FollowButton.jsx";
 import API from "./constants.jsx";
+import { Oval } from "react-loader-spinner";
 
 export default function HomePage({ axiosRequest, pageName, userImg }) {
   const [posts, setPosts] = useState([]);
@@ -25,16 +26,18 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
   const [sessionUserId, setSessionUserId] = useState("");
   const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(0);
+  const [end, setEnd] = useState(false);
+  const ref = useRef();
   const config = {
     headers: {
       Authorization: `Bearer ${userData.token}`,
     },
   };
 
-  useEffect(() => {
+  function getPosts(){
     const request = axios.get(
-      `${API}/${axiosRequest}`,
+      `${API}/${axiosRequest}?page=0`,
       config
     );
     setLoading(true);
@@ -47,7 +50,11 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
         setConnectError(err);
         setLoading(false);
         console.error(err);
-      });
+      })
+  }
+
+  useEffect(() => {
+    getPosts();
   }, [refreshAxios]);
 
   useEffect(() => {
@@ -78,8 +85,40 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
       });
   }, []);
 
-  console.log(following);
-  console.log(posts);
+  useEffect(() => {
+    async function getPostsByPage() {
+      const promise = await axios.get(`${API}/${axiosRequest}?page=${currentPage}`, config);
+      if (promise?.data?.length < 10 && posts?.length > 0) {
+        setPosts((prevInsideState) => [...prevInsideState, ...promise.data]);
+        setEnd((prev) => !prev);
+        return;
+      }
+      if (posts?.length > 0) {
+        setPosts((prevInsideState) => [...prevInsideState, ...promise.data]);
+      }
+    }
+    if (currentPage > 0) {
+      getPostsByPage();
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        console.log("ACHEI VOCE");
+        setTimeout(() => {
+          setCurrentPage((prev) => prev + 1);
+        }, 2000);
+      }
+    });
+    if (ref.current) {
+      console.log("Existe algo para observar");
+      intersectionObserver.observe(ref.current);
+    }
+    return () => intersectionObserver.disconnect();
+  }, [loading]);
+
+
   function RenderPosts() {
     if (connectError !== "") {
       return <ConnectionError />;
@@ -157,8 +196,23 @@ export default function HomePage({ axiosRequest, pageName, userImg }) {
           posts={posts}
           axiosRequest={axiosRequest}
           pageName={pageName}
+          currentPage={currentPage}
         />
         {RenderPosts()}
+        {!end ?
+        <div ref={ref} className="loadMore">     <Oval
+        height={36}
+        width={36}
+        color="#6D6D6D"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+        ariaLabel="oval-loading"
+        secondaryColor="#000000"
+        strokeWidth={2}
+        strokeWidthSecondary={2}
+      /> Loading more posts</div>:
+        <div className="loadMore"> You reached the end. There are no more posts to show</div>}
       </>
     );
   }
@@ -197,6 +251,14 @@ const ContainerPosts = styled.div`
   flex-direction: column;
   box-sizing: border-box;
 
+  .loadMore{
+    color: #6D6D6D;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    padding-bottom: 338px;
+  }
   @media (max-width: 935px) {
     margin-right: 0px;
   }

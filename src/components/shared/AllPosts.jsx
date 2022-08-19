@@ -202,13 +202,13 @@ export default function AllPosts({
           </Link>
           <Like id={id} />
           <IconContext.Provider value={{color:"#FFFFFF", size: "30px"}}>
-          <div className="reposts" >
-          <BiRepost onClick={() => showModalRepost(id)}></BiRepost>
-          <p>{countReposts} re-posts</p>
-          </div>
           <div className="reposts">
           <AiOutlineComment onClick={toggleClass} ></AiOutlineComment>
           <p>comments</p>
+          </div>
+          <div className="reposts" >
+          <BiRepost onClick={() => showModalRepost(id)}></BiRepost>
+          <p>{countReposts} re-posts</p>
           </div>
           </IconContext.Provider>
         </div>
