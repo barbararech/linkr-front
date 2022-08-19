@@ -15,6 +15,7 @@ import Comments from "./Comments.jsx";
 import API from "./constants.jsx";
 import { BiRepost } from "react-icons/bi";
 import { AiOutlineComment } from "react-icons/ai";
+import NumComments from "./NumComments.jsx";
 
 export default function AllPosts({
   id,
@@ -204,7 +205,7 @@ export default function AllPosts({
           <IconContext.Provider value={{color:"#FFFFFF", size: "30px"}}>
           <div className="reposts">
           <AiOutlineComment onClick={toggleClass} ></AiOutlineComment>
-          <p>comments</p>
+          <p><NumComments id={id}/> comments</p>
           </div>
           <div className="reposts" >
           <BiRepost onClick={() => showModalRepost(id)}></BiRepost>
@@ -445,8 +446,10 @@ const Posts = styled.div`
 
   .reposts>p{
     margin-top: 5px;
-    font-size: 11px;
+    font-size: 10px;
     color: #ffffff;
+    width: 60px;
+    text-align: center;
   }
 
   @media (max-width: 935px) {
